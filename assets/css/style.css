@@ -1,0 +1,192 @@
+*{
+    font-family: HelveticaNeue, sans-serif;
+}
+
+html{
+    background: white;
+}
+
+#header_nav {
+    position: absolute;
+    height: 50px;
+    top:0;
+    color: white;
+    background: #E86850;
+    border-bottom: 1px solid #f2806d;
+}
+
+#header_nav > div > button {
+    margin-top: 5px;
+    width: 150px;
+    font-size: 12px;
+    margin-left: 0;
+    border-radius: 0 0 0 0;
+    border: 0;
+}
+
+#header_nav > ul{
+    font-family: "Helvetica Neue","Helvetica","Arial","Verdana","sans-serif",Dotum;
+    margin-top: 12px;
+    margin-left: 80px;
+}
+
+#header_nav > ul > li{
+    font-size: 13px;
+    display: inline-flex;
+    flex-direction: row;
+    margin-left: 15px;
+    list-style: none;
+    text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
+>>>>>>> origin/master
+}
+
+#footer_nav{
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    color: white;
+    background: #E86850;
+    border-top: 1px solid #f2806d;
+}
+
+body{
+    margin-top: 0;
+    background: #3d3d3d;
+
+}
+
+#main{
+    width: 50vw;
+    height: 40vw;
+    margin-top: 2%;
+    max-height: 100%;
+    /*border-radius: 4px 4px 4px 4px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);*/
+}
+
+#home_img{
+    max-width:100%;
+    max-height:100%;
+}
+
+#search_field,#last_game,#ranked_stats{
+    text-align: center;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#last_game,#ranked_stats,#runes{
+    border-radius: 0 0 0 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px;
+}
+
+#search_button, #ranked_stats,#runes{
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#search_button{
+    color: white;
+    width: 2.5%;
+    border-top: 1px solid #D1D1D1;
+    border-right: 1px solid #D1D1D1;
+    border-bottom: 1px solid #D1D1D1;
+    background-color: #3d3d3d;
+    background-image: url("../images/search_icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+#search_field{
+    background-color: #3d3d3d;
+    color: white;
+    margin-left: 0;
+}
+
+#search_field:focus{
+    background-color: white;
+    color: black;
+}
+
+#search_button, #search_field{
+    margin-top: 0.25%;
+}
+
+@media (min-width:550px) {
+    #search_button{
+        margin-left: 0;
+        width: 2.5%;
+        padding: 0;
+    }
+
+    #last_game,#runes{
+        margin-left: 0;
+        width:32.6666666667%;
+
+    }
+    #ranked_stats{
+        margin-left: 0;
+        width:34.6666666667%;
+    }
+}
+/*
+#summonerInfo{
+    position: relative;
+    top: 50px;
+    left: 300px;
+    width: 509px;
+    height: 600px;
+}
+#summonerData{
+    display: inline-flex;
+    position: relative;
+    width: 500px;
+    background-color: black;
+    border-style: ridge;
+}
+#summonerOptions{
+    display: none;
+    position: relative;
+}
+#profileIcon{
+
+}
+#summonerLevel{
+    color: azure;
+    position: relative;
+    bottom: 10px;
+    left: 20px;
+    height: 32px;
+}
+#summonerName{
+    color: azure;
+    position: relative;
+    top: 40px;
+    right: 13px;
+    height: 40px;
+    
+}
+
+#teamOne{
+    border-style: ridge;
+    position: relative;
+    /*display: inline-flex;*//*
+    display: none;
+    flex-direction: column;
+
+
+}
+#teamTwo{
+    border-style: ridge;
+    position: relative;
+    /*display: inline-flex;*//*
+    display: none;
+    flex-direction: column;
+    left: 257px;
+}
+*/
