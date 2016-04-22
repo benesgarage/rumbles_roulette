@@ -1,7 +1,6 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Rumble's Roulette | Home</title>
 
     <!-- CSS
@@ -14,23 +13,25 @@
 
     <!-- Scripts
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <script src="<?php echo base_url('assets/js/jquery-1.12.3.min.js');?>"></script>
-    <script src="<?php echo base_url('assets/js/AccessAPI.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery-1.12.0.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/angular.min.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/Access_api.js');?>"></script>
 
 
 </head>
 
 </body>
 <header id="header_nav" class="twelve columns">
-    <div class="twelve columns">
+    <div id="nav_bar" class="twelve columns">
         <div class="one column"><br></div>
         <img id="logo" class="one column" src="<?php echo base_url('assets/images/RR_shadow_blur.png');?>">
         <button class="one column" id="rumbles_roulette_button" style="float: left;">Rumbles Roulette</button>
         <button class="one column" id="champion_statistics_button" style="float: left;">Champion Statistics</button>
         <button class="one column" id="about_us_button" style="float: left;">About us</button>
         <div class="three columns"><br> </div>
-        <input class="three columns" type="text" id="search_field" placeholder="Summoner name">
-        <input class="one column" type="button" id="search_button" value="">
+        <input class="three columns" type="text" id="search_field" placeholder="Enter a summoner's name.">
+        <input class="one column" type="button" id="search_button" value="" 
+               onclick="findSummoner('<?php echo base_url('home/find_summoner');?>')">
     </div>
 </header>
 <div id="landing_banner" class="twelve columns">
@@ -57,12 +58,16 @@
     <div class="two columns"><br></div>
     <h1 class="ten columns">Be a god at league of legends</h1>
     <div class="one column"><br></div>
-    <p class="seven columns" style="font-size: 18px">Roll your dice and try your luck, Rumble's Roulette generates a
+    <p class="eleven columns" style="font-size: 18px">Roll your dice and try your luck, Rumble's Roulette generates a
         random champion out of your champion pool for you to use with a totally random build, but wait,
         we are the first of its kind to score your performance and create leaderboard rankings
         based on kills, assists, build progress, etcetera.<br><br>
         If you feel up to the challenge hit that roll button and give it a try.
         <br><br>Happy rumbling.</p>
+    <img id="item" class="one column" src="<?php echo base_url('assets/images/item_ring_iceborn.png');?>">
+    <img id="item" class="one column" src="<?php echo base_url('assets/images/item_ring_hog.png');?>">
+    <img id="item" class="one column" src="<?php echo base_url('assets/images/item_ring_mastery.png');?>">
+    <img id="item" class="one column" src="<?php echo base_url('assets/images/item_ring.png');?>">
 </div>
 
 <footer id="footer_nav" class="twelve columns">

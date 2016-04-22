@@ -12,4 +12,10 @@
      {
          $this->load->view('home');
      }
+
+     public function find_summoner()
+     {
+         $summoner = $_GET['summoner'];
+         echo 'win';
+     }
  }

@@ -20,8 +20,19 @@ html{
     background-color: #3d3d3d;
 }
 
+#item{
+    width:100px;
+    height:100px;
+}
+
 #logo{
     margin-top: 0.25%;
+    width: 90px;
+    height:44px;
+}
+
+#nav_bar{
+    display: inline-flex;
 }
 
 #register{
@@ -41,6 +52,7 @@ html{
     color: white;
     background: #E86850;
     border-bottom: 1px solid #f2806d;
+    z-index: 10;
 }
 
 #header_nav > div > button {
