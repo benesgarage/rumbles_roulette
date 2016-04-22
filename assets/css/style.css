@@ -46,7 +46,7 @@ html{
 }
 
 #header_nav {
-    position: absolute;
+    position: fixed;
     height: 50px;
     top:0;
     color: white;
