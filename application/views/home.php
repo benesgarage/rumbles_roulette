@@ -7,6 +7,7 @@
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link href='https://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/skeleton.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/normalize.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css')?>">
@@ -22,23 +23,48 @@
 </body>
 <header id="header_nav" class="twelve columns">
     <div class="twelve columns">
+        <div class="one column"><br></div>
+        <img id="logo" class="one column" src="<?php echo base_url('assets/images/RR_shadow_blur.png');?>">
         <button class="one column" id="rumbles_roulette_button" style="float: left;">Rumbles Roulette</button>
         <button class="one column" id="champion_statistics_button" style="float: left;">Champion Statistics</button>
         <button class="one column" id="about_us_button" style="float: left;">About us</button>
-        <div class="one column"><br> </div>
+        <div class="three columns"><br> </div>
         <input class="three columns" type="text" id="search_field" placeholder="Summoner name">
         <input class="one column" type="button" id="search_button" value="">
-        <div class="one column"><br> </div>
-
-        <button class="one column" id="rumbles_roulette_button" style="float: left;">Rumbles Roulette</button>
-        <button class="one column" id="champion_statistics_button" style="float: left;">Champion Statistics</button>
-        <button class="one column" id="about_us_button" style="float: left;">About us</button>
-    </div>
-
     </div>
 </header>
-<div id="main" class="container">
+<div id="landing_banner" class="twelve columns">
+    <div id="main" class="container">
+        <div id="frontpage_advert" class="twelve columns">
+            <div class="three columns"><br></div>
+            <label id="frontpage_quote" class="six columns">AP LEE SIN? AP LEE WIN!</label>
+            <div class="three columns"><br></div>
+        </div>
+        <div id="frontpage_motto" class="twelve columns">
+            <div class="two columns"><br></div>
+            <label id="frontpage_underquote" class="eight columns">PLAY THE MOST OBSURD BUILDS
+                AND BE REWARED WITH GREAT PRIZES</label>
+            <div class="two columns"><br></div>
+        </div>
+        <div id="register_front_page" class="twelve columns">
+            <div class="four columns"><br></div>
+            <button class="four columns" id="register">START NOW</button>
+            <div class="four columns"><br></div>
+        </div>
+    </div>
 </div>
+<div id="landing_info" class="twelve columns">
+    <div class="two columns"><br></div>
+    <h1 class="ten columns">Be a god at league of legends</h1>
+    <div class="one column"><br></div>
+    <p class="seven columns" style="font-size: 18px">Roll your dice and try your luck, Rumble's Roulette generates a
+        random champion out of your champion pool for you to use with a totally random build, but wait,
+        we are the first of its kind to score your performance and create leaderboard rankings
+        based on kills, assists, build progress, etcetera.<br><br>
+        If you feel up to the challenge hit that roll button and give it a try.
+        <br><br>Happy rumbling.</p>
+</div>
+
 <footer id="footer_nav" class="twelve columns">
 </footer>
 </body>

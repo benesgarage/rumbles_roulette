@@ -6,6 +6,34 @@ html{
     background: white;
 }
 
+#landing_banner{
+    background-image: url("../images/lol_wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-bottom: 1px solid #595959;
+}
+
+#landing_info{
+    display: inline-flex;
+    flex-wrap: wrap;
+    color: #E86850;
+    background-color: #3d3d3d;
+}
+
+#logo{
+    margin-top: 0.25%;
+}
+
+#register{
+    background: #E86850;
+    text-align: center;
+}
+
+#register_front_page{
+    margin-top: 40%;
+    margin-bottom: 20%;
+}
+
 #header_nav {
     position: absolute;
     height: 50px;
@@ -37,12 +65,12 @@ html{
     margin-left: 15px;
     list-style: none;
     text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
->>>>>>> origin/master
 }
 
 #footer_nav{
     position: fixed;
-    height: 100px;
+    /* THIS IS WHY THERES NO FOOTER*/
+    height: 0px;
     bottom: 0;
     color: white;
     background: #E86850;
@@ -51,7 +79,7 @@ html{
 
 body{
     margin-top: 0;
-    background: #3d3d3d;
+    background-color: #3d3d3d;
 
 }
 
@@ -67,6 +95,28 @@ body{
 #home_img{
     max-width:100%;
     max-height:100%;
+}
+
+#frontpage_advert{
+    margin-top: 20%;
+}
+
+#frontpage_quote{
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    -webkit-font-smoothing: antialiased;
+}
+
+#frontpage_underquote{
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    -webkit-font-smoothing: antialiased;
 }
 
 #search_field,#last_game,#ranked_stats{
@@ -90,6 +140,7 @@ body{
 }
 
 #search_button{
+    transition: background-color 0.25s linear;
     color: white;
     width: 2.5%;
     border-top: 1px solid #D1D1D1;
@@ -109,7 +160,15 @@ body{
     margin-left: 0;
 }
 
+#search_field:focus + #search_button{
+    transition: background-color 0.25s linear;
+    background-color: white;
+    color: black;
+}
+
 #search_field:focus{
+    outline: none;
+    border-color: #D1D1D1;
     transition: background-color 0.25s linear;
     background-color: white;
     color: black;
