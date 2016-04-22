@@ -103,12 +103,14 @@ body{
 
 }
 #search_field{
+    transition: background-color 0.25s linear;
     background-color: #3d3d3d;
     color: white;
     margin-left: 0;
 }
 
 #search_field:focus{
+    transition: background-color 0.25s linear;
     background-color: white;
     color: black;
 }
