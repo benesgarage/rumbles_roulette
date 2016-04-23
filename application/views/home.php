@@ -7,6 +7,7 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link href='https://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link rel="icon" type="image/png" href="<?php echo base_url('assets/images/lol_logo.png')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/skeleton.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/normalize.css')?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css')?>">
@@ -43,8 +44,8 @@
         </div>
         <div id="frontpage_motto" class="twelve columns">
             <div class="two columns"><br></div>
-            <label id="frontpage_underquote" class="eight columns">PLAY THE MOST OBSURD BUILDS
-                AND BE REWARED WITH GREAT PRIZES</label>
+            <label id="frontpage_underquote" class="eight columns">PLAY THE MOST ABSURD BUILDS
+                AND BE REWARDED WITH GREAT PRIZES</label>
             <div class="two columns"><br></div>
         </div>
         <div id="register_front_page" class="twelve columns">
