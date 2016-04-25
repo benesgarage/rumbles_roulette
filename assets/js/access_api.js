@@ -1,3 +1,5 @@
+var base_url = window.location;
+
 window.onload = function(){
     $("#search_field").keyup(function(event){
         if(event.keyCode == 13){
@@ -9,24 +11,30 @@ window.onload = function(){
 function findSummoner(url) {
     summonerToSearch = formatSummonerName($("#search_field").val());
     doAjax(url,{summoner:summonerToSearch},function (summoner_data) {
-        profile_icon_url = set_profile_icon_url(summoner_data[summonerToSearch]['profileIconId']);
-        $("<div id='profile_page' class='twelve columns'>" +
-                "<div id='profile_dashboard' class='twelve columns'>" +
-                    "<img id='profile_icon' src="+profile_icon_url+">"+
-                     "<div id='profile_name_and_options'>" +
-                        "<label id='summoner_name'>" +
-                            summoner_data[summonerToSearch]['name']+
-                        "</label>" +
-                        "<div id='profile_options'>"+
-                            "<button id='renew_button' value='Renew data'>Renew</button>"+
-                            "<button  value='Live game'>Live game</button>"+
-                            "<button  value='Rate'>Rate</button>"+
+        doAjax(base_url+"/home/get_summoner_league_entry",{summoner_id:summoner_data[summonerToSearch]['id']},
+            function (league_data) {
+                profile_icon_url = set_profile_icon_url(summoner_data[summonerToSearch]['profileIconId']);
+                $("<div id='profile_page' class='twelve columns'>" +
+                        "<div id='profile_dashboard' class='twelve columns'>" +
+                            "<img id='profile_icon' src="+profile_icon_url+">"+
+                             "<div id='profile_name_and_options'>" +
+                                "<label id='summoner_name'>" +
+                                    summoner_data[summonerToSearch]['name']+
+                                "</label>" +
+                                "<div id='profile_options'>"+
+                                    "<button id='renew_button' value='Renew data'>Renew</button>"+
+                                    "<button  value='Live game'>Live game</button>"+
+                                    "<button  value='Rate'>Rate</button>"+
+                                "</div>" +
+                            "</div>" +
                         "</div>" +
-                    "</div>" +
-                "</div>" +
-            "</div>").insertAfter("header");
-        
-        $("#profile_page").fadeIn(500);
+                        "<div id='summoner_league_data' class='two columns'>" +
+                            
+                        "</div>"+
+                "</div>").insertAfter("header");
+                
+                $("#profile_page").fadeIn(500);
+        });
     });
     $("#landing_banner").fadeOut(500, function () {
         $(this).remove();
@@ -34,7 +42,12 @@ function findSummoner(url) {
     $("#landing_info").fadeOut(500, function () {
         $(this).remove();
     });
+    $("#profile_page").fadeOut(500, function () {
+        $(this).remove();
+    });
 }
+
+
 
 function formatSummonerName(summonerName){
     summonerName = summonerName.replace(/\s/g,"");

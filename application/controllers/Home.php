@@ -19,4 +19,11 @@
              .$_GET['summoner']."?api_key=3b5d74b4-52b6-4f8d-8192-44e310307080");
          echo $result;
      }
+
+     public function get_summoner_league_entry()
+     {
+         $result = file_get_contents("https://euw.api.pvp.net/api/lol/euw/v2.5/league/by-summoner/"
+         .$_GET['summoner_id']."/entry?api_key=3b5d74b4-52b6-4f8d-8192-44e310307080");
+         echo $result;
+     }
  }

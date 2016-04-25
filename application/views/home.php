@@ -25,11 +25,12 @@
 <header id="header_nav" class="twelve columns">
     <div id="nav_bar" class="twelve columns">
         <div class="one column"><br></div>
-        <img id="logo" class="one column" src="<?php echo base_url('assets/images/RR_shadow_blur.png');?>">
-        <button class="one column" id="rumbles_roulette_button" style="float: left;">Rumbles Roulette</button>
+        <img id="logo"
+             class="one column"
+             src="<?php echo base_url('assets/images/RR_shadow_blur.png');?>"
+             onclick="window.location ='<?php echo base_url();?>'">
         <button class="one column" id="champion_statistics_button" style="float: left;">Champion Statistics</button>
-        <button class="one column" id="about_us_button" style="float: left;">About us</button>
-        <div class="three columns"><br> </div>
+        <div class="five columns"><br> </div>
         <input class="three columns" type="text" id="search_field" placeholder="Enter a summoner's name.">
         <input class="one column" type="button" id="search_button" value="" 
                onclick="findSummoner('<?php echo base_url('home/find_summoner');?>')">
