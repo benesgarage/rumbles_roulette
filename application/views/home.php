@@ -16,7 +16,7 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="<?php echo base_url('assets/js/jquery-1.12.0.min.js');?>"></script>
     <script src="<?php echo base_url('assets/js/angular.min.js');?>"></script>
-    <script src="<?php echo base_url('assets/js/Access_api.js');?>"></script>
+    <script src="<?php echo base_url('assets/js/access_api.js');?>"></script>
 
 
 </head>
