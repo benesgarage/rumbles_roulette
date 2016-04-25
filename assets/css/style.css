@@ -17,7 +17,7 @@ html{
 #profile_page{
     width: 80%;
     /*width:960px;*/
-    height: 300px;
+    height: 600px;
     background-color: #EAEAEA;
     margin-top: 40px;
     padding-top: 40px;
@@ -35,7 +35,47 @@ html{
 }
 
 #summoner_league_data{
-    background-color: wheat;
+    display: inline-flex;
+    border: 2px outset #f2806d;
+    margin-top: 30px;
+    background-color: #EAEAEA;
+}
+
+#league_data_details{
+    display: inline-flex;
+    flex-direction: column;
+}
+
+#league_data_details label:not(first-child){
+    font-size: 12px;
+    margin-left: 20px;
+    font-weight: 400;
+    text-shadow: 1px 1px 0px rgba(242, 128, 109, 0.5);
+}
+
+#league_data_details label:first-child{
+    margin-top: 10px;
+    font-size: 18px;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+#loading{
+    display: none;
+    position: fixed;
+    margin: 0 auto;
+    top:0;
+    margin-top: 10%;
+    padding-bottom: 1%;
+    background-color: rgba(255, 255, 255, 0.1);
+    opacity: 1;
+    z-index: 2;
+    text-align: center;
+}
+
+#rank_medal{
+    width: 120px;
+    height: 120px;
 }
 
 #profile_name_and_options{
@@ -59,7 +99,7 @@ html{
 
 
 #profile_icon{
-    border: 2px double #f2806d;
+    border: 2px outset #f2806d;
     width: 100px;
     height: 100px;
     margin-left: 20px;
@@ -111,7 +151,7 @@ html{
     top:0;
     color: white;
     background: #E86850;
-    border-bottom: 1px solid #f2806d;
+    border-bottom: 1px outset #f2806d;
     z-index: 10;
 }
 

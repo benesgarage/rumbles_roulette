@@ -76,3 +76,8 @@
 </footer>
 </body>
 </html>
+<div class="offset-by-three columns">
+    <div id="loading" class="six columns">
+        <img id="loading_image" src="<?php echo base_url('assets/images/gif/loading.gif');?>">
+    </div>
+</div>
