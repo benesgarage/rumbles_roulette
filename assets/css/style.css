@@ -3,7 +3,51 @@
 }
 
 html{
-    background: white;
+    background: #EAEAEA;
+}
+
+#summoner_name{
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    text-shadow: 1px 1px 0px rgba(242, 128, 109, 0.5);
+    margin-bottom: 33.5px;
+}
+
+#profile_page{
+    width: 80%;
+    /*width:960px;*/
+    height: 200px;
+    background-color: #EAEAEA;
+    margin-top: 100px;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: none;
+    border-bottom: 1px solid #bfbfbf;
+}
+
+#profile_dashboard{
+    display: inline-flex;
+
+}
+
+#profile_name_and_options{
+    margin-left: 30px;
+}
+
+#profile_options button{
+    background: #E86850;
+}
+
+#profile_options button:not(:first-child){
+    margin-left: 10px;
+}
+
+
+#profile_icon{
+    border: 2px double #f2806d;
+    width: 100px;
+    height: 100px;
 }
 
 #landing_banner{
@@ -91,7 +135,7 @@ html{
 
 body{
     margin-top: 0;
-    background-color: #3d3d3d;
+    background-color: #EAEAEA;
 
 }
 
