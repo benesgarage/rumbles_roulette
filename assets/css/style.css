@@ -38,7 +38,8 @@ html{
     display: inline-flex;
     border: 2px outset #f2806d;
     margin-top: 30px;
-    background-color: #EAEAEA;
+    background-image: url("../images/greyed_trophy_bg.jpg");
+    background-size: cover;
 }
 
 #league_data_details{

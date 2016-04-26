@@ -17,7 +17,7 @@
      {
          $result = file_get_contents("https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/"
              .$_GET['summoner']."?api_key=3b5d74b4-52b6-4f8d-8192-44e310307080");
-         sleep(5);
+         sleep(1);
          echo $result;
      }
 
