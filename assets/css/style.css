@@ -6,6 +6,11 @@ html{
     background: #EAEAEA;
 }
 
+.champion_ring{
+    width: 90px;
+    height: 90px;
+}
+
 #summoner_name{
     font-size: 20px;
     font-style: italic;
@@ -34,12 +39,38 @@ html{
     border-bottom: 1px solid #bfbfbf;
 }
 
+#summoner_data{
+    display: inline-flex;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
 #summoner_league_data{
     display: inline-flex;
     border: 2px outset #f2806d;
-    margin-top: 30px;
     background-image: url("../images/greyed_trophy_bg.jpg");
     background-size: cover;
+}
+
+#summoner_champion_data{
+    display: inline-flex;
+    border: 2px outset #f2806d;
+    background-image: url("../images/greyed_trophy_bg.jpg");
+    background-size: cover;
+    justify-content: space-between;
+    margin-left: 100px;
+}
+
+#summoner_champion_data img{
+    margin-top: 15px;
+}
+
+#summoner_champion_data img:first-child{
+    margin-left:20px;
+}
+
+#summoner_champion_data img:last-child{
+    margin-right: 20px;
 }
 
 #league_data_details{
@@ -68,7 +99,7 @@ html{
     top:0;
     margin-top: 10%;
     padding-bottom: 1%;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(234, 234, 234, 0.1);
     opacity: 1;
     z-index: 2;
     text-align: center;

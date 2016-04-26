@@ -33,7 +33,7 @@
         <div class="five columns"><br> </div>
         <input class="three columns" type="text" id="search_field" placeholder="Enter a summoner's name.">
         <input class="one column" type="button" id="search_button" value="" 
-               onclick="findSummoner('<?php echo base_url('home/find_summoner');?>')">
+               onclick="findSummoner('<?php echo base_url('home/generate_summoner_page');?>')">
     </div>
 </header>
 <div id="landing_banner" class="twelve columns">
