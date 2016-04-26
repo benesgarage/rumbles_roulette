@@ -5,7 +5,7 @@
             src="<?php echo str_replace('profileiconid',$summoner_data['profileIconId'],profile_icon_url) ?>"
         >
         <div id='profile_name_and_options'>
-            <label id='summoner_name'><?php $summoner_data['name']?></label>
+            <label id='summoner_name'><?php echo $summoner_data['name']?></label>
             <div id='profile_options'>
                 <button id='renew_button' value='Renew data'>Renew</button>
                 <button  value='Live game'>Live game</button>
@@ -42,18 +42,37 @@
                     echo(number_format((
                         ($league_data['entries'][0]['wins'] /
                             ($league_data['entries'][0]['wins']+$league_data['entries'][0]['losses'])
-                        )*100),2,'.','')
+                        )*100),2,'.','')."% Winrate"
                     )
                     ?></label>
                 </div>
             </div>
         <div id='summoner_champion_data' class='seven columns'>
-            <img class='champion_ring' src='<?php echo base_url("assets/images/champion_squares/Aatrox_ring.png")?>'>
-            <img class='champion_ring' src='<?php echo base_url("assets/images/champion_squares/Ahri_ring.png")?>'>
-            <img class='champion_ring' src='<?php echo base_url("assets/images/champion_squares/Akali_ring.png")?>'>
-            <img class='champion_ring' src='<?php echo base_url("assets/images/champion_squares/Alistar_ring.png")?>'>
-            <img class='champion_ring' src='<?php echo base_url("assets/images/champion_squares/Aatrox_ring.png")?>'>
-
+            <div class="champion_holder">
+                <img class='champion_ring' src='<?php echo base_url("assets/images/champion_splashes/Aatrox_win.png")?>'
+                     onclick="resize_ring()">
+            </div>
+            <div class="champion_holder">
+                <img class='champion_ring' src='<?php echo base_url("assets/images/champion_splashes/Aatrox_win.png")?>'
+                     onclick="resize_ring()">
+            </div>
+            <div class="champion_holder">
+                <img class='champion_ring' src='<?php echo base_url("assets/images/champion_splashes/Aatrox_win.png")?>'
+                     onclick="resize_ring()">
+            </div>
+            <div class="champion_holder">
+                <img class='champion_ring' src='<?php echo base_url("assets/images/champion_splashes/Aatrox_win.png")?>'
+                     onclick="resize_ring()">
+            </div>
+            <div class="champion_holder">
+                <img class='champion_ring' src='<?php echo base_url("assets/images/champion_splashes/Aatrox_win.png")?>'
+                     onclick="resize_ring()">
             </div>
         </div>
     </div>
+    <div id="detailed_data" class=" twelve columns">
+        <div id="overview">
+            <img id="test_img" src="<?php echo base_url("assets/images/champion_splashes/Aatrox_0_greyed.jpg")?>">
+        </div>
+    </div>
+</div>

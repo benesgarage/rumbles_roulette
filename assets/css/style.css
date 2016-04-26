@@ -7,22 +7,27 @@ html{
 }
 
 .champion_ring{
-    width: 90px;
-    height: 90px;
+    height:120px;
+}
+
+.champion_holder{
+    width: 20%;
+    overflow: visible;
 }
 
 #summoner_name{
-    font-size: 20px;
+    font-family: 'Droid Sans Mono';
+    font-size: 30px;
     font-style: italic;
     font-weight: 400;
     text-shadow: 1px 1px 0px rgba(242, 128, 109, 0.5);
-    margin-bottom: 33.5px;
+    margin-bottom: 19px;
 }
 
 #profile_page{
     width: 80%;
     /*width:960px;*/
-    height: 600px;
+    height: 1000px;
     background-color: #EAEAEA;
     margin-top: 40px;
     padding-top: 40px;
@@ -53,7 +58,9 @@ html{
 }
 
 #summoner_champion_data{
+    overflow: hidden;
     display: inline-flex;
+    flex-direction: row-reverse;
     border: 2px outset #f2806d;
     background-image: url("../images/greyed_trophy_bg.jpg");
     background-size: cover;
@@ -61,16 +68,12 @@ html{
     margin-left: 100px;
 }
 
-#summoner_champion_data img{
-    margin-top: 15px;
-}
-
 #summoner_champion_data img:first-child{
-    margin-left:20px;
+    position: relative;
+    right:155px;
 }
 
-#summoner_champion_data img:last-child{
-    margin-right: 20px;
+#summoner_champion_data img:not(first-child){
 }
 
 #league_data_details{
@@ -86,10 +89,24 @@ html{
 }
 
 #league_data_details label:first-child{
+    font-family: 'Droid Sans Mono';
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-style: italic;
-    text-decoration: underline;
+}
+
+#detailed_data{
+    margin-top: 30px;
+}
+
+#test_img{
+    width: 100%;
+}
+
+#overview{
+    width: 96%;
+    border: 2px outset #f2806d;
+    margin-left: 20px;
 }
 
 #loading{

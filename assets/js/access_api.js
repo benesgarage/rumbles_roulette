@@ -11,7 +11,7 @@ window.onload = function(){
         if(event.keyCode == 13){
             $("#search_button").click();
         }
-    })
+    });
 };
 
 function findSummoner(url) {
@@ -49,5 +49,18 @@ function doAjax(url, data, callback){
             return callback(data);
         }
     });
+}
 
+function resize_ring()
+{
+    $('#summoner_champion_data').children().css({
+        width: '90px',
+        height: '90px',
+        marginTop: '17px'
+    });
+    $(event.target).css({
+        width: '120px',
+        height: '120px',
+        marginTop: '5px'
+    })
 }
