@@ -42,4 +42,37 @@
              .$id."/ranked?season=SEASON".date("Y")."&api_key=".api_key),TRUE);
          return $ranked_champions['champions'];
      }
+     
+     public function test() {
+         $data = array(
+             'region'        => 'euw',
+             'summoner_name' => 'benesgarage',
+             'summoner_id'   => 28247035
+         );
+         $this->load->library('Current_user', $data);
+         $this->current_user->set_champion_url();
+         $this->current_user->set_mastery_url();
+         $this->current_user->set_current_game_url();
+         $this->current_user->set_featured_games_url();
+         $this->current_user->set_games_url();
+         $this->current_user->set_league_url();
+         echo '<pre>';
+         echo "fetch_champions(true);".PHP_EOL;
+         print_r($this->current_user->fetch_champions(true));
+         echo "fetch_champion(45);".PHP_EOL;
+         print_r($this->current_user->fetch_champion(45));
+         echo "fetch_champion_mastery_entry(412);".PHP_EOL;
+         print_r($this->current_user->fetch_champion_mastery_entry(412));
+         echo "fetch_champion_mastery_entries();".PHP_EOL;
+         print_r($this->current_user->fetch_champion_mastery_entries());
+         echo "fetch_top_mastery_entries(2);".PHP_EOL;
+         print_r($this->current_user->fetch_top_mastery_entries(2));
+         echo "fetch_current_game();".PHP_EOL;
+         print_r($this->current_user->fetch_current_game());
+         echo "fetch_featured_games();".PHP_EOL;
+         print_r($this->current_user->fetch_featured_games());
+         echo "fetch_recent_games();".PHP_EOL;
+         print_r($this->current_user->fetch_recent_games());
+         echo '</pre>';
+     }
  }

@@ -1,0 +1,85 @@
+CHAMPION - V1.2
+
+GET ALL CHAMPIONS
+https://{region}.api.pvp.net/api/lol/{region}/{version}/champion?{api_key}
+OR
+https://{region}.api.pvp.net/api/lol/{region}/{version}/champion?{freeToPlay}&{api_key}
+(If freeToPlay is set to FALSE, acts just like previous request. Format[freeToPlay={boolean}])
+
+GET CHAMPION BY ID
+https://{region}.api.pvp.net/api/lol/{region}/{version}/champion/{id}?{api_key}
+
+
+
+CHAMPION MASTERY
+(Only section with no version control)
+(platformId = BR1, EUN1, EUW1, JP1, KR, LA1(lan), LA2(las), NA1, OC1, RU, TR1)
+
+GET CHAMPION MASTERY BY PLAYER ID AND CHAMPION ID
+https://{region}.api.pvp.net/championmastery/location/{platformId}/player/{playerId}/champion/{championId}?{api_key}
+
+GET ALL CHAMPION MASTERY ENTRIES SORTED BY NUMBER OF CHAMP POINTS DESCENDING
+https://{region}.api.pvp.net/championmastery/location/{platformId}/player/{playerId}/champions?{api_key}
+
+GET A PLAYERS TOTAL CHAMPION MASTERY SCORE, SUM OF INDIVIDUAL CHAMPION MASTERY LEVELS
+(Can be redundant if a previous fetch for all champion mastery entries has been performed)
+https://{region}.api.pvp.net/championmastery/location/{platformId}/player/{playerId}/score?{api_key}
+
+GET SPECIFIED NUMBER OF TOP CHAMPION MASTERY ENTRIES SORTED BY NUMBER OF CHAMPION POINTS DESCENDING
+(Can be redundant if a previous fetch for all champion mastery entries has been performed)
+https://{region}.api.pvp.net/championmastery/location/{platformId}/player/{playerId}/topchampions?{api_key}
+OR
+https://{region}.api.pvp.net/championmastery/location/{platformId}/player/{playerId}/topchampions?{count}&{api_key}
+(If count is set to 3, acts just like previous request. Format[count={int}])
+
+
+
+CURRENT GAME - V1.0
+
+GET CURRENT GAME INFO FOR THE GIVEN SUMMONER ID
+https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{platformId}/{summonerId}?{api_key}
+
+
+
+FEATURED GAMES - V1.0
+
+GET A LIST OF FEATURED GAMES
+https://{region}.api.pvp.net/observer-mode/rest/featured?{api_key}
+
+
+
+GAME - V1.3
+
+GET RECENT GAMES BY SUMMONER ID
+https://{region}.api.pvp.net/api/lol/{region}/{version}/game/by-summoner/{summonerId}/recent?{api_key}
+
+
+
+LEAGUE - V2.5
+
+GET LEAGUES MAPPED BY SUMMONER ID FOR A GIVEN LIST OF SUMMONER IDS(CSV)
+https://{region}.api.pvp.net/api/lol/{region}/{version}/league/by-summoner/{summonerIds}?{api_key}
+
+GET LEAGUE ENTRIES BY SUMMONER ID FOR A GIVEN LIST OF SUMMONER IDS(CSV)
+https://{region}.api.pvp.net/api/lol/{region}/{version}/league/by-summoner/{summonerIds}/entry?{api_key}
+
+GET LEAGUES MAPPED BY TEAM ID FOR A GIVEN LIST OF TEAM IDS(CSV)
+https://{region}.api.pvp.net/api/lol/{region}/{version}/league/by-team/{teamIds}?{api_key}
+
+GET LEAGUE ENTRIES MAPPED BY TEAM ID FOR A GIVEN LIST OF TEAM IDS(CSV)
+https://{region}.api.pvp.net/api/lol/{region}/{version}/league/by-team/{teamIds}/entry?{api_key}
+
+GET CHALLENGER TIER LEAGUES
+(type=[RANKED_SOLO_5X5,RANKED_TEAM_3X3,RANKED_TEAM_5X5])
+https://{region}.api.pvp.net/api/lol/{region}/{version}/league/challenger?{type}&{api_key}
+
+GET MASTER TIER LEAGUES
+(type=[RANKED_SOLO_5X5,RANKED_TEAM_3X3,RANKED_TEAM_5X5])
+https://{region}.api.pvp.net/api/lol/{region}/{version}/league/master?{type}&{api_key}
+
+
+
+LOL STATIC DATA - V1.2
+(REQUESTS TO THIS API DO NOT COUNT TOWARDS RATE LIMIT)
+
+RETRIEVE CHAMPION LIST

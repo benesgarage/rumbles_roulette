@@ -54,3 +54,4 @@ $route['home/find_summoner'] = 'home/find_summoner';
 $route['home/generate_summoner_page'] = 'home/generate_summoner_page';
 $route['home/get_summoner_league_entry'] = 'home/get_summoner_league_entry';
 $route['home/get_summoner_ranked_champions'] = 'home/get_summoner_ranked_champions';
+$route['home/test'] = 'home/test';

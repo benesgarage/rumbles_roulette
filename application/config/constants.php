@@ -83,5 +83,31 @@ defined('EXIT_USER_INPUT')     OR define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
-define('api_key','3b5d74b4-52b6-4f8d-8192-44e310307080');
-define('profile_icon_url','http://ddragon.leagueoflegends.com/cdn/6.8.1/img/profileicon/profileiconid.png');
+
+const API_KEY                     = '3b5d74b4-52b6-4f8d-8192-44e310307080';
+const profile_icon_url            = 'http://ddragon.leagueoflegends.com/cdn/6.8.1/img/profileicon/profileiconid.png';
+const CHAMPION_URL_SKELETON       = 'https://{region}.api.pvp.net/api/lol/{region}/v1.2/champion';
+const MASTERY_URL_SKELETON        = 
+'https://{region}.api.pvp.net/championmastery/location/{platform_id}/player/{summoner_id}';
+const CURRENT_GAME_URL_SKELETON   = 
+'https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}';
+const FEATURED_GAMES_URL_SKELETON =
+'https://{region}.api.pvp.net/observer-mode/rest/featured';
+const GAME_URL_SKELETON           =
+'https://{region}.api.pvp.net/api/lol/{region}/v1.3/game/by-summoner/{summoner_id}/recent';
+const LEAGUE_URL_SKELETON         =
+'https://{region}.api.pvp.net/api/lol/{region}/v2.5/league/';
+
+const REGION_PLATFORM_EQUIVALENTS = array(
+    'br'   => 'br1',
+    'eune' => 'eun1',
+    'euw'  => 'euw1',
+    'jp'   => 'jp1',
+    'kr'   => 'kr1',
+    'lan'  => 'la1',
+    'las'  => 'la2',
+    'na'   => 'na1',
+    'oce'  => 'oc1',
+    'ru'   => 'ru',
+    'tr'   => 'tr1'
+);
