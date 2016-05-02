@@ -25,21 +25,21 @@
      private function get_summoner_data()
      {
          $summoner_data = json_decode(file_get_contents("https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/"
-             .$_GET['summoner']."?api_key=".api_key),TRUE);
+             .$_GET['summoner']."?api_key=".API_KEY),TRUE);
          return $summoner_data[$_GET['summoner']];
      }
      
      private function get_summoner_league_data($id)
      {
          $league_data = json_decode(file_get_contents("https://euw.api.pvp.net/api/lol/euw/v2.5/league/by-summoner/"
-             .$id."/entry?api_key=".api_key),TRUE);
+             .$id."/entry?api_key=".API_KEY),TRUE);
          return $league_data[$id][0];
      }
 
      private function get_summoner_current_ranked_champions($id)
      {
          $ranked_champions = json_decode(file_get_contents("https://euw.api.pvp.net/api/lol/euw/v1.3/stats/by-summoner/"
-             .$id."/ranked?season=SEASON".date("Y")."&api_key=".api_key),TRUE);
+             .$id."/ranked?season=SEASON".date("Y")."&api_key=".API_KEY),TRUE);
          return $ranked_champions['champions'];
      }
      
