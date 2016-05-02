@@ -135,8 +135,19 @@ class Current_user {
         return json_decode(file_get_contents($url),true);
     }
 
-    public function fetch_leagues_by_summoner_ids($summoner_id_list) {
-        
+    public function fetch_leagues_by_summoner_ids($summoner_id_csv) {
+        $url = "{$this->league_url}/by-summoner/{$summoner_id_csv}?api_key=".API_KEY;
+        return json_decode(file_get_contents($url),true);
+    }
+
+    public function fetch_league_by_summoner_ids($summoner_id_csv) {
+        $url = "{$this->league_url}/by-summoner/{$summoner_id_csv}/entry?api_key=".API_KEY;
+        return json_decode(file_get_contents($url),true);
+    }
+
+    public function fetch_league_by_team_ids($team_id_csv) {
+        $url = "{$this->league_url}/by-team/{$team_id_csv}?api_key=".API_KEY;
+        return json_decode(file_get_contents($url),true);
     }
 
     
