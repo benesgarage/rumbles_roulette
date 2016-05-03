@@ -81,5 +81,38 @@ https://{region}.api.pvp.net/api/lol/{region}/{version}/league/master?{type}&{ap
 
 LOL STATIC DATA - V1.2
 (REQUESTS TO THIS API DO NOT COUNT TOWARDS RATE LIMIT)
-
+(version in the GET query refers to Data Dragon version, defaults to latest,
+ locale is language, ex: en_US, defaults to region default,
+ dataById is boolean, set to true will use champ IDs as keys, as oposed to champion keys,
+ champData allows us to return additional data, defaults to type, version, data, id, key, name and title.)
 RETRIEVE CHAMPION LIST
+(List of possible champData values:
+ all, allytips, altimages, blurb, enemytips, image, info, lore, partype, passive, recommended, skins, spells,
+ stats, tags)
+
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/champion?{api_key}
+OR
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/champion?{version}{locale}{dataById}{champData}{api_key}
+
+RETRIEVE CHAMPION BY ID
+(List of possible champData values:
+ all, allytips, altimages, blurb, enemytips, image, info, lore, partype, passive, recommended, skins, spells,
+ stats, tags)
+
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/champion/{id}?{api_key}
+OR
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/champion/{id}?{version}{locale}{champData}{api_key}
+
+RETRIEVE ITEM LIST
+(List of possible itemListData values:
+ all, colloq, consumeOnFull, consumed, depth, effect, from, gold, groups, hideFromAll, image, inStore, into,
+ maps, requiredChampion, sanitizedDescription, specialRecipe, stacks, stats, tags, tree)
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/item?{api_key}
+OR
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/item?{version}{locale}{itemListData}{api_key}
+
+RETRIEVE ITEM BY ID
+(List of possible itemListData values:
+ all, colloq, consumeOnFull, consumed, depth, effect, from, gold, groups, hideFromAll, image, inStore, into,
+ maps, requiredChampion, sanitizedDescription, specialRecipe, stacks, stats, tags, tree)
+ https://global.api.pvp.net/api/lol/static-data/{region}/{version}/item?{api_key}

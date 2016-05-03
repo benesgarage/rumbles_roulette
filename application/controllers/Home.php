@@ -42,37 +42,49 @@
              .$id."/ranked?season=SEASON".date("Y")."&api_key=".API_KEY),TRUE);
          return $ranked_champions['champions'];
      }
+
+     /** *************************************************** **/
+     /*  ********************DEBUG CODE*********************  */
+     /** *************************************************** **/
      
-     public function test() {
+     public function test($method_to_run, $param = null) {
          $data = array(
              'region'        => 'euw',
              'summoner_name' => 'benesgarage',
              'summoner_id'   => 28247035
          );
-         $this->load->library('Current_user', $data);
-         $this->current_user->set_champion_url();
-         $this->current_user->set_mastery_url();
-         $this->current_user->set_current_game_url();
-         $this->current_user->set_featured_games_url();
-         $this->current_user->set_games_url();
-         $this->current_user->set_league_url();
+         $this->load->library('Search_user', $data);
+         $this->search_user->set_url_list();
          echo '<pre>';
-         echo "fetch_champions(true);".PHP_EOL;
-         print_r($this->current_user->fetch_champions(true));
+         echo "{$method_to_run}({$param});".PHP_EOL;
+         if ($param !== null) {
+             log_message('debug', 'CALLING '.strtoupper($method_to_run).' WITH PARAMS '.strtoupper($param));
+             print_r($this->search_user->{$method_to_run}(array('id' => 28)));
+         }else{
+             log_message('debug', 'CALLING '.strtoupper($method_to_run));
+             print_r($this->search_user->{$method_to_run}());
+         }
+         /*
+         print_r($this->search_user->fetch_champions(true));
          echo "fetch_champion(45);".PHP_EOL;
-         print_r($this->current_user->fetch_champion(45));
+         print_r($this->search_user->fetch_champion(45));
          echo "fetch_champion_mastery_entry(412);".PHP_EOL;
-         print_r($this->current_user->fetch_champion_mastery_entry(412));
+         print_r($this->search_user->fetch_champion_mastery_entry(412));
          echo "fetch_champion_mastery_entries();".PHP_EOL;
-         print_r($this->current_user->fetch_champion_mastery_entries());
+         print_r($this->search_user->fetch_champion_mastery_entries());
          echo "fetch_top_mastery_entries(2);".PHP_EOL;
-         print_r($this->current_user->fetch_top_mastery_entries(2));
+         print_r($this->search_user->fetch_top_mastery_entries(2));
          echo "fetch_current_game();".PHP_EOL;
-         print_r($this->current_user->fetch_current_game());
+         print_r($this->search_user->fetch_current_game());
          echo "fetch_featured_games();".PHP_EOL;
-         print_r($this->current_user->fetch_featured_games());
+         print_r($this->search_user->fetch_featured_games());
          echo "fetch_recent_games();".PHP_EOL;
-         print_r($this->current_user->fetch_recent_games());
+         print_r($this->search_user->fetch_recent_games());
+         */
          echo '</pre>';
      }
+
+     /** *************************************************** **/
+     /*  ****************END DEBUG CODE*********************  */
+     /** *************************************************** **/
  }

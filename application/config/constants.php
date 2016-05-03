@@ -86,18 +86,6 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 const API_KEY                     = '3b5d74b4-52b6-4f8d-8192-44e310307080';
 const profile_icon_url            = 'http://ddragon.leagueoflegends.com/cdn/6.8.1/img/profileicon/profileiconid.png';
-const CHAMPION_URL_SKELETON       = 'https://{region}.api.pvp.net/api/lol/{region}/v1.2/champion';
-const MASTERY_URL_SKELETON        = 
-'https://{region}.api.pvp.net/championmastery/location/{platform_id}/player/{summoner_id}';
-const CURRENT_GAME_URL_SKELETON   = 
-'https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}';
-const FEATURED_GAMES_URL_SKELETON =
-'https://{region}.api.pvp.net/observer-mode/rest/featured';
-const GAME_URL_SKELETON           =
-'https://{region}.api.pvp.net/api/lol/{region}/v1.3/game/by-summoner/{summoner_id}/recent';
-const LEAGUE_URL_SKELETON         =
-'https://{region}.api.pvp.net/api/lol/{region}/v2.5/league/';
-
 const REGION_PLATFORM_EQUIVALENTS = array(
     'br'   => 'br1',
     'eune' => 'eun1',
