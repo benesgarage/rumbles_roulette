@@ -59,7 +59,7 @@
          echo "{$method_to_run}({$param});".PHP_EOL;
          if ($param !== null) {
              log_message('debug', 'CALLING '.strtoupper($method_to_run).' WITH PARAMS '.strtoupper($param));
-             print_r($this->search_user->{$method_to_run}(array('id' => 28)));
+             print_r($this->search_user->{$method_to_run}($param));
          }else{
              log_message('debug', 'CALLING '.strtoupper($method_to_run));
              print_r($this->search_user->{$method_to_run}());

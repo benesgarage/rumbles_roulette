@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-
+//TODO: INTRODUCE LOGIC THAT PERFORMS WHEN RESULT FROM RIOT IS ERROR
 /**
  *
  * All functions will have the sole purpose of fetching information from the given
@@ -27,10 +27,12 @@ class Search_user {
         /** *************************************************** **/
         /*  ****************END DEBUG CODE*********************  */
         /** *************************************************** **/
-        $this->CI =& get_instance();
+        $this->CI               =& get_instance();
         $this->CI->config->load('riot', true);
-        $this->url_config = (object) $this->CI->config->item('endpoints','riot');
-        $this->platform_id = (string) $this->CI->config->item('region_platform_equivalents', 'riot')[$this->region];
+        $this->url_config       = (object) $this->CI->config->item('endpoints','riot');
+        $this->platform_id      = (string) $this->CI->config->item('region_platform_equivalents', 'riot')[$this->region];
+        //TODO: REPLACE HARDCODED SUFFIXES
+        $this->enpoint_suffixes = (object) $this->CI->config->item('endpoint_suffixes', 'riot');
         $this->url_list = $this->set_url_list();
         /** *************************************************** **/
         /*  ********************DEBUG CODE*********************  */
@@ -42,15 +44,21 @@ class Search_user {
         /** *************************************************** **/
     }
 
-    private function querialise_url($url, $data = array()) {
+    private function querialise_url($url, $data) {
         //TODO: IMPLEMENT THIS FUNCTION WITHIN OTHER FUNCTIONS, LOOK AT PASS-BY-REFERENCE
-        if(is_array($data)){
-            $data['api_key'] = API_KEY;
-            $url .= '?'.http_build_query($data);
-            return $url;
+        $data            = is_array($data) ? $data : array();
+        $data['api_key'] = API_KEY;
+        $url            .= '?'.http_build_query($data);
+        return $url;
+    }
+
+    private function parameterise_url($url, $data) {
+        //TODO: IMPLEMENT THIS FUNCTION WITHIN OTHER FUNCTIONS, LOOK AT PASS-BY-REFERENCE
+        $data = is_array($data) ? $data : array();
+        foreach ($data as $param) {
+            $url .= "/" . $param;
         }
-        log_message('error', 'UNABLE TO QUERIALISE URL, PARAMETERS WERE NOT SENT AS ARRAY, RECIEVED '.gettype($data));
-        return false;
+        return $url;
     }
 
     public function set_url_list() {
@@ -66,6 +74,14 @@ class Search_user {
         return $url_list;
     }
 
+    private function fetch_data($url, $params = null, $query = null) {
+        $url = $this->parameterise_url($url,$params);
+        $url = $this->querialise_url($url,$query);
+        return json_decode(file_get_contents($url));
+    }
+
+    //TODO: FUNCTIONS WILL CALL ONE FUNCTION THAT WILL TAKE CARE OF CREATING THE URL AND RETURNING DATA
+    //TODO: MAKE IT SO THAT EACH FUNCTION RETURNS THE CORRECT DATA(PARAMS, QUERY, URL)
     /**
      *
      * Eigther fetches all champions, using free_to_play to restrict the list to only free champions,
@@ -81,22 +97,18 @@ class Search_user {
         $url = "{$this->url_list->champion_url}";
         if(isset($data['id'])) {
             log_message('debug', 'FETCHING CHAMPION BY ID');
-            $id  = $data['id'];
-            if(is_int($id) || is_string($id)) {
-                $url .= "/{$id}";
-                $url = $this->querialise_url($url);
-                return json_decode(file_get_contents($url));
+            if(is_int($data['id']) || is_string($data['id'])) {
+                $params  = array($data['id']);
+                return $this->fetch_data($url,$params,null);
             }
-            log_message('error', 'COULD NOT FETCH CHAMPION, INCORRECT PARAMETER TYPE FOR VALUE "id": '.gettype($id));
+            log_message('error', 'COULD NOT FETCH CHAMPION, INCORRECT PARAMETER TYPE FOR VALUE "id": '.gettype($data['id']));
         } elseif (isset($data['free_to_play'])) {
             log_message('debug', 'FETCHING CHAMPIONS');
-            $free_to_play = $data['free_to_play'];
-            if (is_bool($free_to_play)) {
-                $data = array('freeToPlay' => ($free_to_play ? 'true' : 'false'), 'api_key' => API_KEY);
-                $url .= "?" . http_build_query($data);
-                return json_decode(file_get_contents($url));
+            if (is_bool($data['free_to_play'])) {
+                $query = array('freeToPlay' => ($data['free_to_play'] ? 'true' : 'false'));
+                return $this->fetch_data($url,null,$query);
             }
-            log_message('error', 'COULD NOT FETCH CHAMPIONS, INCORRECT PARAMETER TYPE FOR VALUE "free_to_play": ' . gettype($free_to_play));
+            log_message('error', 'COULD NOT FETCH CHAMPIONS, INCORRECT PARAMETER TYPE FOR VALUE "free_to_play": ' . gettype($data['free_to_play']));
         } else {
             log_message('error', 'COULD NOT FETCH CHAMPIONS, INCORRECT PARAMETERS GIVEN '.json_encode($data));
         }
@@ -109,58 +121,78 @@ class Search_user {
         if ($champion_id !== null) {
             log_message('debug', 'FETCHING CHAMPION MASTERY BY CHAMPION ID');
             if (is_int($champion_id) || is_string($champion_id)) {
-                $url .= "/champion/{$champion_id}?api_key=".API_KEY;
-                return json_decode(file_get_contents($url));
+                $params = array($this->enpoint_suffixes->fetch_champion_mastery,$champion_id);
+                return $this->fetch_data($url,$params,null);
             }
             log_message('error', 'COULD NOT FETCH CHAMPION MASTERY, INCORRECT PARAMETER TYPE FOR VALUE "champion_id": '.gettype($champion_id));
-        }else {
-            $url .= "/champions?api_key=".API_KEY;
-            return json_decode(file_get_contents($url));
+        } else {
+            log_message('debug', 'DID NOT RECEIVE CHAMPION ID, FETCHING ALL CHAMPION MASTERIES');
+            $params = array($this->enpoint_suffixes->fetch_champion_masteries);
+            return $this->fetch_data($url,$params,null);
         }
         return false;
     }
     
     public function fetch_mastery_score() {
         log_message('debug', 'FETCH_MASTERY_SCORE STARTED');
-        $url = "{$this->url_list->mastery_url}/score?api_key=".API_KEY;
-        return json_decode(file_get_contents($url));
+        $url    = "{$this->url_list->mastery_url}";
+        $params = array($this->enpoint_suffixes->fetch_mastery_score);
+        return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_top_mastery_entries($count = 3) {
-        $data = array(
-            'count'   => $count,
-            'api_key' => API_KEY
-        );
-        $url  = "{$this->url_list->mastery_url}/topchampions?".http_build_query($data);
-        return json_decode(file_get_contents($url),true);
+        log_message('debug', 'FETCH_TOP_MASTERY_ENTRIES STARTED');
+        $url    = "{$this->url_list->mastery_url}";
+        $params = array($this->enpoint_suffixes->fetch_top_mastery_entries);
+        $query  = array('count' => $count);
+        return $this->fetch_data($url,$params,$query);
     }
 
     public function fetch_current_game() {
-        $url = "{$this->url_list->current_game_url}?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        log_message('debug', 'FETCH_CURRENT_GAME STARTED');
+        $url = "{$this->url_list->current_game_url}";
+        return $this->fetch_data($url,null,null);
     }
 
     public function fetch_featured_games() {
-        $url = "{$this->url_list->featured_games_url}?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        log_message('debug', 'FETCH_FEATURED_GAME STARTED');
+        $url = "{$this->url_list->featured_games_url}";
+        return $this->fetch_data($url,null,null);
     }
 
     public function fetch_recent_games() {
-        $url = "{$this->url_list->games_url}?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        log_message('debug', 'FETCH_RECENT_GAMES STARTED');
+        $url = "{$this->url_list->games_url}";
+        return $this->fetch_data($url,null,null);
     }
 
     public function fetch_leagues_by_summoner_ids($summoner_id_csv) {
-        $url = "{$this->url_list->league_url}/by-summoner/{$summoner_id_csv}?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        log_message('debug', 'FETCH_LEAGUES_BY_SUMMONER_IDS STARTED');
+        $url    = "{$this->url_list->league_url}";
+        $params = array($this->enpoint_suffixes->fetch_leagues_by_summoner_ids,$summoner_id_csv);
+        return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_league_by_summoner_ids($summoner_id_csv) {
-        $url = "{$this->url_list->league_url}/by-summoner/{$summoner_id_csv}/entry?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        //TODO: MAKE FULLY AUTOMATED, TRY ADAPTING SO THAT WE CAN CREATE ONE FUNCTION FOR ALL
+        log_message('debug', 'FETCH_LEAGUE_BY_SUMMONER_IDS STARTED');
+        $url = "{$this->url_list->league_url}";
+        $params = str_getcsv($this->enpoint_suffixes->fetch_league_by_summoner_ids, ',');
+        $value_array  = array($summoner_id_csv);
+        //INTERLACE PARAMETER VALUES WITH STATIC PARAMETERS
+        for($i = 0, $k = 0; $i <= count($params); $i++, $k++) {
+            if(isset($value_array[$k])) {
+                array_splice($params, $i + 1, $k, $value_array);
+                $i++;
+            } else {
+                break;
+            }
+        }
+        return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_leagues_by_team_ids($team_id_csv) {
+        log_message('debug', 'FETCH_LEAGUES_BY_TEAM_IDS STARTED');
         $url = "{$this->url_list->league_url}/by-team/{$team_id_csv}?api_key=".API_KEY;
         return json_decode(file_get_contents($url),true);
     }
