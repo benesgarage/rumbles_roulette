@@ -9,6 +9,7 @@
  * Class Api_requests
  */
 
+
 class Search_user {
 
     private $region;
@@ -28,21 +29,23 @@ class Search_user {
         /*  ****************END DEBUG CODE*********************  */
         /** *************************************************** **/
         $this->CI               =& get_instance();
-        $this->CI->config->load('riot', true);
+        $this->CI->config->load('riot',true);
         $this->url_config       = (object) $this->CI->config->item('endpoints','riot');
         $this->platform_id      = (string) $this->CI->config->item('region_platform_equivalents', 'riot')[$this->region];
         //TODO: REPLACE HARDCODED SUFFIXES
         $this->enpoint_suffixes = (object) $this->CI->config->item('endpoint_suffixes', 'riot');
         $this->url_list = $this->set_url_list();
+        $this->CI->load->helper('interlace_parameters_helper');
         /** *************************************************** **/
         /*  ********************DEBUG CODE*********************  */
         /** *************************************************** **/
-        //var_dump($this->url_config);
-        //var_dump($this->url_list);
+        var_dump($this->url_config);
+        var_dump($this->url_list);
         /** *************************************************** **/
         /*  ****************END DEBUG CODE*********************  */
         /** *************************************************** **/
     }
+    
 
     private function querialise_url($url, $data) {
         //TODO: IMPLEMENT THIS FUNCTION WITHIN OTHER FUNCTIONS, LOOK AT PASS-BY-REFERENCE
@@ -98,7 +101,7 @@ class Search_user {
         if(isset($data['id'])) {
             log_message('debug', 'FETCHING CHAMPION BY ID');
             if(is_int($data['id']) || is_string($data['id'])) {
-                $params  = array($data['id']);
+                $params = array($data['id']);
                 return $this->fetch_data($url,$params,null);
             }
             log_message('error', 'COULD NOT FETCH CHAMPION, INCORRECT PARAMETER TYPE FOR VALUE "id": '.gettype($data['id']));
@@ -121,13 +124,14 @@ class Search_user {
         if ($champion_id !== null) {
             log_message('debug', 'FETCHING CHAMPION MASTERY BY CHAMPION ID');
             if (is_int($champion_id) || is_string($champion_id)) {
-                $params = array($this->enpoint_suffixes->fetch_champion_mastery,$champion_id);
+                $params = $this->enpoint_suffixes->fetch_champion_mastery;
+                interlace_parameters($params,$champion_id);
                 return $this->fetch_data($url,$params,null);
             }
             log_message('error', 'COULD NOT FETCH CHAMPION MASTERY, INCORRECT PARAMETER TYPE FOR VALUE "champion_id": '.gettype($champion_id));
         } else {
             log_message('debug', 'DID NOT RECEIVE CHAMPION ID, FETCHING ALL CHAMPION MASTERIES');
-            $params = array($this->enpoint_suffixes->fetch_champion_masteries);
+            $params = $this->enpoint_suffixes->fetch_champion_masteries;
             return $this->fetch_data($url,$params,null);
         }
         return false;
@@ -136,14 +140,14 @@ class Search_user {
     public function fetch_mastery_score() {
         log_message('debug', 'FETCH_MASTERY_SCORE STARTED');
         $url    = "{$this->url_list->mastery_url}";
-        $params = array($this->enpoint_suffixes->fetch_mastery_score);
+        $params = $this->enpoint_suffixes->fetch_mastery_score;
         return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_top_mastery_entries($count = 3) {
         log_message('debug', 'FETCH_TOP_MASTERY_ENTRIES STARTED');
         $url    = "{$this->url_list->mastery_url}";
-        $params = array($this->enpoint_suffixes->fetch_top_mastery_entries);
+        $params = $this->enpoint_suffixes->fetch_top_mastery_entries;
         $query  = array('count' => $count);
         return $this->fetch_data($url,$params,$query);
     }
@@ -169,37 +173,33 @@ class Search_user {
     public function fetch_leagues_by_summoner_ids($summoner_id_csv) {
         log_message('debug', 'FETCH_LEAGUES_BY_SUMMONER_IDS STARTED');
         $url    = "{$this->url_list->league_url}";
-        $params = array($this->enpoint_suffixes->fetch_leagues_by_summoner_ids,$summoner_id_csv);
+        $params = $this->enpoint_suffixes->fetch_leagues_by_summoner_ids;
+        interlace_parameters($params,$summoner_id_csv);
         return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_league_by_summoner_ids($summoner_id_csv) {
-        //TODO: MAKE FULLY AUTOMATED, TRY ADAPTING SO THAT WE CAN CREATE ONE FUNCTION FOR ALL
         log_message('debug', 'FETCH_LEAGUE_BY_SUMMONER_IDS STARTED');
-        $url = "{$this->url_list->league_url}";
-        $params = str_getcsv($this->enpoint_suffixes->fetch_league_by_summoner_ids, ',');
-        $value_array  = array($summoner_id_csv);
-        //INTERLACE PARAMETER VALUES WITH STATIC PARAMETERS
-        for($i = 0, $k = 0; $i <= count($params); $i++, $k++) {
-            if(isset($value_array[$k])) {
-                array_splice($params, $i + 1, $k, $value_array);
-                $i++;
-            } else {
-                break;
-            }
-        }
+        $url    = "{$this->url_list->league_url}";
+        $params = $this->enpoint_suffixes->fetch_league_by_summoner_ids;
+        interlace_parameters($params,$summoner_id_csv);
         return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_leagues_by_team_ids($team_id_csv) {
         log_message('debug', 'FETCH_LEAGUES_BY_TEAM_IDS STARTED');
-        $url = "{$this->url_list->league_url}/by-team/{$team_id_csv}?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        $url    = "{$this->url_list->league_url}";
+        $params = $this->enpoint_suffixes->fetch_leagues_by_team_ids;
+        interlace_parameters($params,$team_id_csv);
+        return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_league_by_team_ids($team_id_csv) {
-        $url = "{$this->url_list->league_url}/by-team/{$team_id_csv}/entry?api_key=".API_KEY;
-        return json_decode(file_get_contents($url),true);
+        log_message('debug', 'FETCH_LEAGUE_BY_TEAM_IDS STARTED');
+        $url    = "{$this->url_list->league_url}";
+        $params = $this->enpoint_suffixes->fetch_league_by_team_ids;
+        interlace_parameters($params,$team_id_csv);
+        return $this->fetch_data($url,$params,null);
     }
 
     public function fetch_challenger_leagues($type) {
