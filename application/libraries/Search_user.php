@@ -1,6 +1,10 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-//TODO: INTRODUCE LOGIC THAT PERFORMS WHEN RESULT FROM RIOT IS ERROR
+<?php
+declare(strict_types=1);
+defined('BASEPATH') OR exit('No direct script access allowed');
+//TODO: INTRODUCE LOGIC THAT PERFORMS WHEN RESULT FROM RIOT IS ERROR.
+//TODO: TAKING A MORE FLEXIBLE ROUTE, NO ERRORS ON BAD PARAMS, JUST DEFAULTS.
 //TODO: START MIGRATING TO PHP7, TYPE HINTING ESSENTIAL FOR CODE INTEGRITY.
+
 /**
  *
  * All functions will have the sole purpose of fetching information from the given
@@ -12,14 +16,13 @@
 
 
 class Search_user {
-
+    private static $config_file;
     private $region;
     private $platform_id;
-    private $summoner_name;
     private $summoner_id;
     private $url_list;
 
-    public function __construct($data) {
+    public function __construct(array $data) {
         /** *************************************************** **/
         /*  ********************DEBUG CODE*********************  */
         /** *************************************************** **/
@@ -29,14 +32,15 @@ class Search_user {
         /** *************************************************** **/
         /*  ****************END DEBUG CODE*********************  */
         /** *************************************************** **/
-        $this->CI               =& get_instance();
-        $this->CI->config->load('riot',true);
-        $this->url_config       = (object) $this->CI->config->item('endpoints','riot');
-        $this->platform_id      = (string) $this->CI->config->item('region_platform_equivalents', 'riot')[$this->region];
-        //TODO: REPLACE HARDCODED SUFFIXES
-        $this->enpoint_suffixes = (object) $this->CI->config->item('endpoint_suffixes', 'riot');
+        self::$config_file        = 'riot';
+        $this->CI                 =& get_instance();
+        $this->CI->config->load(self::$config_file,true);
+        $this->url_config         = (object) $this->CI->config->item('endpoints',self::$config_file);
+        $this->platform_id        = (string) $this->CI->config->item('region_platform_equivalents', self::$config_file)[$this->region];
+        $this->enpoint_suffixes   = (object) $this->CI->config->item('endpoint_suffixes', self::$config_file);
+        $this->api_key            = (string) $this->CI->config->item('api_key', self::$config_file);
         $this->url_list = $this->set_url_list();
-        $this->CI->load->helper('interlace_parameters_helper');
+        $this->CI->load->helper('interlace_parameters');
         /** *************************************************** **/
         /*  ********************DEBUG CODE*********************  */
         /** *************************************************** **/
@@ -49,41 +53,31 @@ class Search_user {
     
 
 
+//TODO: TAKING IDEAS FROM KITMAKER, HANDLER/CONNECTOR IMPLEMENTATION?
 
-    public function set_url_list() {
+    private function load_config_data(string $config_data) {
+        if(!isset($this->{$config_data})) {
+            $this->{$config_data} = $this->CI->config->item($config_data, self::$config_file);
+        }
+    }
 
+    public function set_url_list() : stdClass {
         $find     = array('{region}','{summoner_id}','{platform_id}');
         $replace  = array($this->region,$this->summoner_id,$this->platform_id);
         $url_list = new stdClass();
-
-        foreach ($this->url_config as $key => $value) {
-            $url_list->{$key} = str_replace($find, $replace, $value);
-        }
-
+        foreach ($this->url_config as $key => $value) $url_list->{$key} = str_replace($find, $replace, $value);
         return $url_list;
     }
-
-    /**
-     *
-     * $url must be a string, and to pass correctly formatted $params and $query, $params must be array and
-     * $query must be stdClass instance.
-     *
-     * @param $url
-     * @param null $params
-     * @param null $query
-     * @return mixed
-     */
-    private function fetch_data($url, $params, $query) {
-        $params = (is_array($params))?  $params:null;
-        $query  = (is_object($query))?  $query:null;
-        log_message('debug', "FETCH_DATA STARTED WITH GIVEN PARAMETERS: URL - {$url} PARAMS - " .implode($params)." QUERY - ".http_build_query($query));
-        parameterise_url($url,$params);
-        querialise_url($url,$query);
-        return json_decode(file_get_contents($url));
+    
+    private function fetch_data_from_url(string $url) : stdClass {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        $data = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($data);
     }
 
-    //TODO: FUNCTIONS WILL CALL ONE FUNCTION THAT WILL TAKE CARE OF CREATING THE URL AND RETURNING DATA
-    //TODO: MAKE IT SO THAT EACH FUNCTION RETURNS THE CORRECT DATA(PARAMS, QUERY, URL)
     /**
      *
      * Eigther fetches all champions, using free_to_play to restrict the list to only free champions,
@@ -92,180 +86,192 @@ class Search_user {
      * @param $id
      * @return bool|mixed
      */
-    public function fetch_champion($id) {
+    public function fetch_champion(int $id) : stdClass {
         log_message('debug', 'FETCH_CHAMPION STARTED');
-        $url = $this->url_list->champion_url;
-        if(is_int($id) || is_string($id)) {
-            $params = array($id);
-            return $this->fetch_data($url,$params,null);
-        }   
-        log_message('error', 'COULD NOT FETCH CHAMPION, INCORRECT PARAMETER TYPE FOR VALUE "id": '.gettype($id));
-        return false;
+        $url            = $this->url_list->champion_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        $params         = array($id);
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
     
-    public function fetch_champions($free_to_play) {
+    public function fetch_champions(bool $free_to_play) : stdClass {
         log_message('debug', 'FETCH_CHAMPIONS STARTED');
-        $url = $this->url_list->champion_url;
-        if(is_bool($free_to_play)) {
-            $query             = new stdClass();
-            $query->freeToPlay = $free_to_play ? 'true' : 'false';
-            return $this->fetch_data($url,null,$query);
-        }
-        log_message('error', 'COULD NOT FETCH CHAMPIONS, INCORRECT PARAMETER TYPE FOR VALUE "free_to_play": ' . gettype($free_to_play));
-        return false;
+        $url               = $this->url_list->champion_url;
+        $query             = new stdClass();
+        $query->api_key    = $this->api_key;
+        $query->freeToPlay = $free_to_play ? 'true' : 'false';
+        form_url($url,$query);
+        return $this->fetch_data_from_url($url);
     }
     
-    public function fetch_champion_mastery($champion_id) {
+    public function fetch_champion_mastery(int $champion_id) : stdClass {
         log_message('debug', 'FETCH_CHAMPION_MASTERY STARTED');
-        $url = $this->url_list->mastery_url;
-        if (is_int($champion_id) || is_string($champion_id)) {
-            $params = $this->enpoint_suffixes->fetch_champion_mastery;
-            interlace_parameters($params,$champion_id);
-            return $this->fetch_data($url,$params,null);
-        }
-        log_message('error', 'COULD NOT FETCH CHAMPION MASTERY, INCORRECT PARAMETER TYPE FOR VALUE "champion_id": '.gettype($champion_id));
-        return false;
+        $url               = $this->url_list->mastery_url;
+        $query             = new stdClass();
+        $query->api_key    = $this->api_key;
+        $params            = $this->enpoint_suffixes->fetch_champion_mastery;
+        interlace_parameters($params,$champion_id);
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_champion_masteries() {
+    public function fetch_champion_masteries() : stdClass {
         log_message('debug', 'FETCH_CHAMPION_MASTERIES STARTED');
-        $url    = $this->url_list->mastery_url;
-        $params = $this->enpoint_suffixes->fetch_champion_masteries;
-        return $this->fetch_data($url,$params,null);
+        $url            = $this->url_list->mastery_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_champion_masteries;
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
     
-    public function fetch_mastery_score() {
+    public function fetch_mastery_score() : stdClass {
         log_message('debug', 'FETCH_MASTERY_SCORE STARTED');
-        $url    = $this->url_list->mastery_url;
-        $params = $this->enpoint_suffixes->fetch_mastery_score;
-        return $this->fetch_data($url,$params,null);
+        $url            = $this->url_list->mastery_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_mastery_score;
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_top_mastery_entries($count = 3) {
+    public function fetch_top_mastery_entries(int $count = 3) : stdClass {
         log_message('debug', 'FETCH_TOP_MASTERY_ENTRIES STARTED');
-        if(is_int($count)) {
-            $url    = $this->url_list->mastery_url;
-            $params = $this->enpoint_suffixes->fetch_top_mastery_entries;
-            $query  = array('count' => $count);
-            return $this->fetch_data($url, $params, $query);
-        }
-        log_message('error', 'COULD NOT FETCH TOP MASTERY ENTRIES, INCORRECT PARAMETER TYPE FOR VALUE "count": '.gettype($count));
-        return false;
+        $url            = $this->url_list->mastery_url;
+        $query          = new stdClass();
+        $query->count   = $count;
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_top_mastery_entries;
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_current_game() {
+    public function fetch_current_game() : stdClass {
         log_message('debug', 'FETCH_CURRENT_GAME STARTED');
-        $url = $this->url_list->current_game_url;
-        return $this->fetch_data($url,null,null);
+        $url            = $this->url_list->current_game_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        form_url($url,$query);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_featured_games() {
+    public function fetch_featured_games() : stdClass {
         log_message('debug', 'FETCH_FEATURED_GAME STARTED');
-        $url = $this->url_list->featured_games_url;
-        return $this->fetch_data($url,null,null);
+        $url            = $this->url_list->featured_games_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        form_url($url,$query);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_recent_games() {
+    public function fetch_recent_games() : stdClass {
         log_message('debug', 'FETCH_RECENT_GAMES STARTED');
-        $url = $this->url_list->games_url;
-        return $this->fetch_data($url,null,null);
+        $url            = $this->url_list->games_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        form_url($url,$query);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_leagues_by_summoner_ids($summoner_id_array) {
+    public function fetch_leagues_by_summoner_ids(array $summoner_id_array) : stdClass {
         log_message('debug', 'FETCH_LEAGUES_BY_SUMMONER_IDS STARTED');
-        if(is_array($summoner_id_array)) {
-            $summoner_id_csv = implode(',',$summoner_id_array);
-            $url             = $this->url_list->league_url;
-            $params          = $this->enpoint_suffixes->fetch_leagues_by_summoner_ids;
-            interlace_parameters($params, $summoner_id_csv);
-            return $this->fetch_data($url, $params, null);
-        }
-        log_message('error', 'COULD NOT FETCH LEAGUES BY SUMMONER IDS, INCORRECT PARAMETER TYPE FOR VALUE "summoner_id_array": '.gettype($summoner_id_array));
-        return false;
+        $summoner_id_csv = implode(',',$summoner_id_array);
+        $url             = $this->url_list->league_url;
+        $query           = new stdClass();
+        $query->api_key  = $this->api_key;
+        $params          = $this->enpoint_suffixes->fetch_leagues_by_summoner_ids;
+        interlace_parameters($params, $summoner_id_csv);
+        form_url($url, $query, $params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_league_by_summoner_ids($summoner_id_array) {
+    public function fetch_league_by_summoner_ids(array $summoner_id_array) : stdClass {
         log_message('debug', 'FETCH_LEAGUE_BY_SUMMONER_IDS STARTED');
-        if(is_array($summoner_id_array)){
-            $summoner_id_csv = implode(',',$summoner_id_array);
-            $url             = $this->url_list->league_url;
-            $params          = $this->enpoint_suffixes->fetch_league_by_summoner_ids;
-            interlace_parameters($params, $summoner_id_csv);
-            return $this->fetch_data($url, $params, null);
-        }
-        log_message('error', 'COULD NOT FETCH LEAGUE BY SUMMONER IDS, INCORRECT PARAMETER TYPE FOR VALUE "summoner_id_array": '.gettype($summoner_id_array));
-        return false;
+        $summoner_id_csv = implode(',',$summoner_id_array);
+        $url             = $this->url_list->league_url;
+        $params          = $this->enpoint_suffixes->fetch_league_by_summoner_ids;
+        $query           = new stdClass();
+        $query->api_key  = $this->api_key;
+        interlace_parameters($params, $summoner_id_csv);
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_leagues_by_team_ids($team_id_array) {
+    public function fetch_leagues_by_team_ids(array $team_id_array) : stdClass {
         log_message('debug', 'FETCH_LEAGUES_BY_TEAM_IDS STARTED');
-        if(is_array($team_id_array)) {
-            $team_id_csv = implode(',',$team_id_array);
-            $url         = $this->url_list->league_url;
-            $params      = $this->enpoint_suffixes->fetch_leagues_by_team_ids;
-            interlace_parameters($params, $team_id_csv);
-            return $this->fetch_data($url, $params, null);
-        }
-        log_message('error', 'COULD NOT FETCH LEAGUES BY TEAM IDS, INCORRECT PARAMETER TYPE FOR VALUE "team_id_array": '.gettype($team_id_array));
+        $team_id_csv    = implode(',',$team_id_array);
+        $url            = $this->url_list->league_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_leagues_by_team_ids;
+        interlace_parameters($params, $team_id_csv);
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_league_by_team_ids($team_id_array) {
+    public function fetch_league_by_team_ids(array $team_id_array) : stdClass {
         log_message('debug', 'FETCH_LEAGUE_BY_TEAM_IDS STARTED');
-        if(is_array($team_id_array)) {
-            $team_id_csv = implode(',',$team_id_array);
-            $url         = $this->url_list->league_url;
-            $params      = $this->enpoint_suffixes->fetch_league_by_team_ids;
-            interlace_parameters($params, $team_id_csv);
-            return $this->fetch_data($url, $params, null);
-        }
-        log_message('error', 'COULD NOT FETCH LEAGUE BY TEAM IDS, INCORRECT PARAMER TYPE FOR VALUE "team_id_array": '.gettype($team_id_array));
+        $team_id_csv    = implode(',',$team_id_array);
+        $url            = $this->url_list->league_url;
+        $query          = new stdClass();
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_league_by_team_ids;
+        interlace_parameters($params, $team_id_csv);
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_challenger_leagues($game_type) {
+    public function fetch_challenger_leagues(string $game_type) {
         log_message('debug', 'FETCH_CHALLENGER_LEAGUES STARTED');
-        if(is_string($game_type)) {
-            $game_types = $this->CI->config->item('game_types', 'riot');
-            if (in_array($game_type, $game_types)) {
-                $url         = $this->url_list->league_url;
-                $query       = new stdClass();
-                $query->type = $game_type;
-                $params      = $this->enpoint_suffixes->fetch_challenger_leagues;
-                return $this->fetch_data($url, $params, $query);
-            }
-            log_message('error', 'COULD NOT FETCH CHALLENGER LEAGUES, INCORRECT VALUE FOR "game_type": '.$game_type.' ACCEPTED VALUES: '.implode(',',$game_types));
-        }
-        log_message('error', 'COULD NOT FETCH CHALLENGER LEAGUES, INCORRECT PARAMETER TYPE FOR VALUE "game_types": '.gettype($game_type));
-        return false;
+        $game_type      = (in_array($game_type, $this->CI->config->item('game_types', 'riot')))?
+                          $game_type : $this->CI->config->item('default_game_type','riot');
+        $url            = $this->url_list->league_url;
+        $query          = new stdClass();
+        $query->type    = $game_type;
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_challenger_leagues;
+        form_url($url,$query, $params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_master_leagues($game_type) {
+    public function fetch_master_leagues(string $game_type) {
         log_message('debug', 'FETCH_MASTER_LEAGUES STARTED');
-        if(is_string($game_type)) {
-            $game_types = $this->CI->config->item('game_types', 'riot');
-            if (in_array($game_type, $game_types)) {
-                $url         = $this->url_list->league_url;
-                $query       = new stdClass();
-                $query->type = $game_type;
-                $params      = $this->enpoint_suffixes->fetch_challenger_leagues;
-                return $this->fetch_data($url, $params, $query);
-            }
-            log_message('error', 'COULD NOT FETCH MASTER LEAGUES, INCORRECT VALUE FOR "game_type": '.$game_type.' ACCEPTED VALUES: '.implode(',',$game_types));
-        }
-        log_message('error', 'COULD NOT FETCH MASTER LEAGUES, INCORRECT PARAMETER TYPE FOR VALUE "game_types": '.gettype($game_type));
-        return false;
+        $game_type      = (in_array($game_type, $this->CI->config->item('game_types', 'riot')))?
+                          $game_type : $this->CI->config->item('default_game_type','riot');
+        $url            = $this->url_list->league_url;
+        $query          = new stdClass();
+        $query->type    = $game_type;
+        $query->api_key = $this->api_key;
+        $params         = $this->enpoint_suffixes->fetch_challenger_leagues;
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-//TODO: WAIT FOR PHP7 FROM HERE ON--------------------------------------------------------------------------------------
-
-    public function fetch_static_champions($data = array()) {
-        //TODO: CHECK PARAMS SENT.
-        $data['api_key'] = API_KEY;
-        $url             = "{$this->url_list->static_data_url}/champion?".http_build_query($data);
-        return json_decode(file_get_contents($url),true);
+    public function fetch_static_champions(stdClass $data) : stdClass {
+        log_message('debug', 'FETCH_STATIC_CHAMPIONS STARTED');
+        //TODO: LOOK AT MAKING A LOAD METHOD, SO THAT THE INSTANCE CAN MAINTAIN REUSED DATA.LIKE API_KEY.
+        $static_data                = $this->CI->config->item('static_data', self::$config_file);
+        $url                        = $this->url_list->static_data_url;
+        $params                     = $this->enpoint_suffixes->fetch_static_champions;
+        $query                      = new stdClass();
+        $query->data_dragon_version = (isset($data->data_dragon_version) && is_string($data->data_dragon_version))?
+                                      $data->data_dragon_version : $static_data->data_dragon_version;
+        $query->locale              = (isset($data->locale) && is_string($data->locale))?
+                                      $data->locale : $static_data->locale;
+        $query->dataById            = (isset($data->data_by_id) && is_bool($data->data_by_id))?
+                                      $data->data_by_id : $static_data->data_by_id;
+        $query->champ_data          = (isset($data->champ_data) && is_string($data->champ_data) && in_array($data->champ_data,$static_data->champ_data_values))?
+                                      $data->champ_data : $static_data->champ_data;
+        $query->api_key             = $this->api_key;
+        form_url($url,$query,$params);
+        return $this->fetch_data_from_url($url);
     }
 
-    public function fetch_static_champion($id, $data = array()) {
+    public function fetch_static_champion(stdClass $data) : stdClass {
         //TODO: CHECK PARAMS SENT.
+        log_message('debug', 'FETCH_STATIC_CHAMPION STARTED');
         $data['api_key'] = API_KEY;
         $url             = "{$this->url_list->static_data_url}/champion/{$id}?".http_build_query($data);
         return json_decode(file_get_contents($url),true);

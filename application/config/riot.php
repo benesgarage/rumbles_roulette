@@ -34,4 +34,17 @@ $config['endpoint_suffixes']['fetch_challenger_leagues']        = array('challen
 $config['endpoint_suffixes']['fetch_master_leagues']            = array('master');
 $config['endpoint_suffixes']['fetch_static_champions']          = array('champion');
 
-$config['game_types']                                           = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3', 'RANKED_TEAM_5x5');
+$config['game_types']                                           = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
+                                                                  'RANKED_TEAM_5x5');
+$config['default_game_type']                                    = 'RANKED_SOLO_5x5';
+
+$config['api_key']                                              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+$config['static_data']['data_dragon_version']                   = '';
+$config['static_data']['locale']                                = 'en_US';
+$config['static_data']['champ_data_values']                     = array('all','allytips','altimages','blurb',
+                                                                  'enempytips','image','info', 'lore', 'partype',
+                                                                  'passive', 'recommended', 'skins', 'spells', 'stats',
+                                                                  'tags');
+$config['static_data']['champ_data']                            = 'all';
+$config['static_data']['data_by_id']                            = false;

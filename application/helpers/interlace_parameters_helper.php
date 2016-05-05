@@ -17,7 +17,6 @@ function interlace_parameters(&$original,$inserted) {
 
 function querialise_url(&$url, $data) {
     $data            = is_object($data) ? $data : new stdClass();
-    $data->api_key   = API_KEY;
     $url            .= '?'.http_build_query($data);
 }
 
@@ -26,4 +25,9 @@ function parameterise_url(&$url, $data) {
     foreach ($data as $param) {
         $url .= "/" . $param;
     }
+}
+
+function form_url(string &$url, stdClass $query, array $params = null){
+    querialise_url($url, $query);
+    parameterise_url($url, $params);
 }
