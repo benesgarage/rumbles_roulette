@@ -30,13 +30,8 @@ $config['endpoint_suffixes']['fetch_leagues_by_summoner_ids']   = array('by-summ
 $config['endpoint_suffixes']['fetch_league_by_summoner_ids']    = array('by-summoner','entry');
 $config['endpoint_suffixes']['fetch_leagues_by_team_ids']       = array('by-team');
 $config['endpoint_suffixes']['fetch_league_by_team_ids']        = array('by-team', 'entry');
+$config['endpoint_suffixes']['fetch_challenger_leagues']        = array('challenger');
+$config['endpoint_suffixes']['fetch_master_leagues']            = array('master');
+$config['endpoint_suffixes']['fetch_static_champions']          = array('champion');
 
-// OPERATIONS AND THEIR RELATED CONFIG ELEMENTS
-$config['fetch_champion']['endpoint']                           =& $config['endpoints']['champion_url'];
-$config['fetch_champion']['endpoint_suffixes']                  =& null;
-$config['fetch_champions']['endpoint']                          =& $config['endpoints']['champion_url'];
-$config['fetch_champions']['endpoint_suffixes']                 =& null;
-$config['fetch_champion_mastery']['endpoint']                   =& $config['endpoints']['mastery_url'];
-$config['fetch_champion_mastery']['endpoint_suffixes']          =& $config['endpoint_suffixes']['fetch_champion_mastery'];
-$config['fetch_champion_masteries']['endpoint']                 =& $config['endpoints']['champion_url'];
-$config['fetch_champion']['endpoint_suffixes']                  =& null;
+$config['game_types']                                           = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3', 'RANKED_TEAM_5x5');
