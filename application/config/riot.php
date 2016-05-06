@@ -4,7 +4,7 @@ $config['endpoints']['champion_url']                            = 'https://{regi
 $config['endpoints']['mastery_url']                             = 'https://{region}.api.pvp.net/championmastery/location/{platform_id}/player/{summoner_id}';
 $config['endpoints']['current_game_url']                        = 'https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}';
 $config['endpoints']['featured_games_url']                      = 'https://{region}.api.pvp.net/observer-mode/rest/featured';
-$config['endpoints']['games_url']                               = 'https://{region}.api.pvp.net/api/lol/{region}/v1.3/game/by-summoner/{summoner_id}/recent';
+$config['endpoints']['game_url']                                = 'https://{region}.api.pvp.net/api/lol/{region}/v1.3/game/by-summoner/{summoner_id}/recent';
 $config['endpoints']['league_url']                              = 'https://{region}.api.pvp.net/api/lol/{region}/v2.5/league';
 $config['endpoints']['static_data_url']                         = 'https://global.api.pvp.net/api/lol/static-data/{region}/v1.2';
 
@@ -33,10 +33,17 @@ $config['endpoint_suffixes']['fetch_league_by_team_ids']        = array('by-team
 $config['endpoint_suffixes']['fetch_challenger_leagues']        = array('challenger');
 $config['endpoint_suffixes']['fetch_master_leagues']            = array('master');
 $config['endpoint_suffixes']['fetch_static_champions']          = array('champion');
+$config['endpoint_suffixes']['fetch_static_champion']           = array('champion');
+$config['endpoint_suffixes']['fetch_static_items']              = array('item');
+$config['endpoint_suffixes']['fetch_static_item']               = array('item');
+$config['endpoint_suffixes']['fetch_static_lang_strings']       = array('language-strings');
+$config['endpoint_suffixes']['fetch_static_languages']          = array('languages');
+$config['endpoint_suffixes']['fetch_static_map']                = array('map');
+$config['endpoint_suffixes']['fetch_static_masteries']          = array('mastery');
 
-$config['game_types']                                           = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
+$config['game']['game_types']                                           = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
                                                                   'RANKED_TEAM_5x5');
-$config['default_game_type']                                    = 'RANKED_SOLO_5x5';
+$config['game']['default_game_type']                                    = 'RANKED_SOLO_5x5';
 
 $config['api_key']                                              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
@@ -47,4 +54,13 @@ $config['static_data']['champ_data_values']                     = array('all','a
                                                                   'passive', 'recommended', 'skins', 'spells', 'stats',
                                                                   'tags');
 $config['static_data']['champ_data']                            = 'all';
+$config['static_data']['item_list_data_values']                 = array('all','colloq','consumeOnFull','consumed',
+                                                                  'depth','effect','from', 'gold', 'groups',
+                                                                  'hideFromAll', 'image', 'inStore', 'into', 'maps',
+                                                                  'requiredChampion', 'sanitizedDescription',
+                                                                  'specialRecipe','stacks','stats','tags', 'tree');
+$config['static_data']['item_list_data']                        = 'all';
+$config['static_data']['mastery_list_data_values']              = array('all','image','masteryTree','prereq',
+                                                                  'ranks','sanitizedDescription','tree');
+$config['static_data']['mastery_list_data']                     = 'all';
 $config['static_data']['data_by_id']                            = false;

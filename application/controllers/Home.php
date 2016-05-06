@@ -1,6 +1,10 @@
 <?php
  class Home extends CI_Controller
  {
+     
+     const RIOT_CONFIG_FILE  = 'riot';
+     private $loaded_configs = false;
+     
      public function __construct()
      {
          parent::__construct();
@@ -53,16 +57,16 @@
              'summoner_name' => 'benesgarage',
              'summoner_id'   => 28247035
          );
-         $this->load->library('Search_user', $data);
-         $this->search_user->set_url_list();
+         $this->load->library('Base_api', $data);
+         $this->base_api->set_url_list();
          echo '<pre>';
          echo "{$method_to_run}({$param});".PHP_EOL;
          if ($param !== null) {
              log_message('debug', 'CALLING '.strtoupper($method_to_run).' WITH PARAMS '.strtoupper($param));
-             print_r($this->search_user->{$method_to_run}($param));
+             print_r($this->base_api->{$method_to_run}($param));
          }else{
              log_message('debug', 'CALLING '.strtoupper($method_to_run));
-             print_r($this->search_user->{$method_to_run}());
+             print_r($this->base_api->{$method_to_run}());
          }
          /*
          print_r($this->search_user->fetch_champions(true));
