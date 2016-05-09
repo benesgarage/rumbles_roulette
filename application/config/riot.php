@@ -40,6 +40,8 @@ $config['endpoint_suffixes']['fetch_static_lang_strings']       = array('languag
 $config['endpoint_suffixes']['fetch_static_languages']          = array('languages');
 $config['endpoint_suffixes']['fetch_static_map']                = array('map');
 $config['endpoint_suffixes']['fetch_static_masteries']          = array('mastery');
+$config['endpoint_suffixes']['fetch_static_mastery_by_id']      = array('mastery');
+$config['endpoint_suffixes']['fetch_static_realm']              = array('realm');
 
 $config['game']['game_types']                                           = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
                                                                   'RANKED_TEAM_5x5');
@@ -63,4 +65,10 @@ $config['static_data']['item_list_data']                        = 'all';
 $config['static_data']['mastery_list_data_values']              = array('all','image','masteryTree','prereq',
                                                                   'ranks','sanitizedDescription','tree');
 $config['static_data']['mastery_list_data']                     = 'all';
+$config['static_data']['rune_list_data_values']                 = array('all','basic','colloq','consumeOnFull',
+                                                                  'consumed','depth','from','gold','hideFromAll',
+                                                                  'image','inStore','into','maps','requiredChampion',
+                                                                  'sanitizedChampion','specialRecipe','stacks','stats',
+                                                                  'tags');
+$config['static_data']['rune_list_data']                        = 'all';
 $config['static_data']['data_by_id']                            = false;

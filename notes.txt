@@ -131,3 +131,13 @@ https://global.api.pvp.net/api/lol/static-data/{region}/{version}/map/?{version}
 RETRIEVE MASTERY DATA
 masteryListData : ('all','image','masteryTree','prereq','ranks','sanitizedDescription','tree')
 https://global.api.pvp.net/api/lol/static-data/{region}/{version}/mastery/?{version}{locale}{masteryListData}{api_key}
+
+RETRIEVE MASTERY DATA BY ID
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/mastery/{id}?{locale}{version}{api_key}
+
+RETRIEVE REALM DATA
+!!!!!! SERIOUSLY IMPORTANT, ALL VERSION INFO OF EACH REGION THAT IS BEING USED IS GIVEN HERE !!!!!!!!
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/realm?{api_key}
+
+RETRIEVE RUNE DATA
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/rune?{locale}{version}{runeListData}{api_key}
