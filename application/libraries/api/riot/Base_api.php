@@ -16,7 +16,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Base_api {
     protected $config_file   = RIOT_CONFIG_FILE;
-    protected $loaded_configs     = false;
     private $url_config;
     private $region;
     private $platform_id;
@@ -43,11 +42,8 @@ class Base_api {
             $this->url_list          = $this->set_url_list();
             $this->query             = new stdClass();
             $this->query->api_key    = $this->api_key;
-            $this->loaded_configs    = true;
         }
     }
-    
-
 
 //TODO: TAKING IDEAS FROM KITMAKER, HANDLER/CONNECTOR IMPLEMENTATION?
 //TODO: IMPLEMENT FUNCTIONS IN THEIR RESPECTIVE API SECTION/FILE/CLASS
@@ -59,11 +55,4 @@ class Base_api {
         foreach ($this->url_config as $key => $value) $url_list->{$key} = str_replace($find, $replace, $value);
         return $url_list;
     }
-
-
-    public function fetch_static_masteries(stdClass $data) : stdClass {
-        //TODO: IMPLEMENT IDENTICAL CODE AS SEEN IN ALL OTHER STATIC CALLS
-    }
-
-
 }

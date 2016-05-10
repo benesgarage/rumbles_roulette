@@ -141,3 +141,6 @@ https://global.api.pvp.net/api/lol/static-data/{region}/{version}/realm?{api_key
 
 RETRIEVE RUNE DATA
 https://global.api.pvp.net/api/lol/static-data/{region}/{version}/rune?{locale}{version}{runeListData}{api_key}
+
+RETRIEVE RUNE DATA BY ID
+https://global.api.pvp.net/api/lol/static-data/{region}/{version}/rune/{id}?{locale}{version}{runeListData}{api_key}

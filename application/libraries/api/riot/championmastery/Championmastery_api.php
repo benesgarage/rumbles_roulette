@@ -18,35 +18,39 @@ class Championmastery_api extends Base_api {
 
     public function fetch_champion_mastery(int $champion_id) : stdClass {
         log_message('debug', __FUNCTION__.' started');
+        $url               = $this->url;
         $query             = $this->query;
         $params            = $this->endpoint_suffixes->fetch_champion_mastery;
         interlace_parameters($params,$champion_id);
-        form_url($this->url,$query,$params);
-        return $this->CI->connector->fetch_data_from_url($this->url); 
+        form_url($url,$query,$params);
+        return $this->CI->connector->fetch_data_from_url($url); 
     }
 
     public function fetch_champion_masteries() : stdClass {
         log_message('debug', __FUNCTION__.' started');
+        $url            = $this->url;
         $query          = $this->query;
         $params         = $this->endpoint_suffixes->fetch_champion_masteries;
-        form_url($this->url,$query,$params);
-        return $this->CI->connector->fetch_data_from_url($this->url);  
+        form_url($url,$query,$params);
+        return $this->CI->connector->fetch_data_from_url($url);  
     }
 
     public function fetch_mastery_score() : stdClass {
         log_message('debug', __FUNCTION__.' started');
+        $url            = $this->url;
         $query          = $this->query;
         $params         = $this->endpoint_suffixes->fetch_mastery_score;
-        form_url($this->url,$query,$params);
-        return $this->CI->connector->fetch_data_from_url($this->url);
+        form_url($url,$query,$params);
+        return $this->CI->connector->fetch_data_from_url($url);
     }
 
     public function fetch_top_mastery_entries(int $count = 3) : stdClass {
         log_message('debug', __FUNCTION__.' started');
+        $url            = $this->url;
         $query          = $this->query;
         $query->count   = $count;
         $params         = $this->endpoint_suffixes->fetch_top_mastery_entries;
-        form_url($this->url,$query,$params);
-        return $this->CI->connector->fetch_data_from_url($this->url);
+        form_url($url,$query,$params);
+        return $this->CI->connector->fetch_data_from_url($url);
     }
 }
