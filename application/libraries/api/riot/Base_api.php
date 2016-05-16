@@ -10,9 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Mother class of all integrations with RIOT's APIs.
  *
- * Class Api_requests
+ * Class Base_api
  */
 
+//TODO: NO POINT IN LOADING ALL URLS IF THE SUBCLASS ONLY USES ONE, REMOVE REDUNDANT URLS
 
 class Base_api {
     protected $config_file   = RIOT_CONFIG_FILE;
