@@ -56,4 +56,8 @@ class Base_api {
         foreach ($this->url_config as $key => $value) $url_list->{$key} = str_replace($find, $replace, $value);
         return $url_list;
     }
+
+    function check_config(mixed $element,array $config) : mixed{
+        return (in_array($element,$config))? $element : $this->CI->config->item($config,$this->config_file)->default;
+    }
 }

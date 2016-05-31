@@ -15,19 +15,19 @@ function interlace_parameters(&$original,$inserted) {
     }
 }
 
-function querialise_url(&$url, $data) {
-    $data            = is_object($data) ? $data : new stdClass();
-    $url            .= '?'.http_build_query($data);
-}
-
 function parameterise_url(&$url, $data) {
-    $data = is_array($data) ? $data : array();
+    $data = is_array($data) ? $data : array($data);
     foreach ($data as $param) {
         $url .= "/" . $param;
     }
 }
 
-function form_url(string &$url, stdClass $query, array $params = null){
-    querialise_url($url, $query);
+function querialise_url(&$url, $data) {
+    $data            = is_object($data) ? $data : new stdClass();
+    $url            .= '?'.http_build_query($data);
+}
+
+function form_url(string &$url, stdClass $query, mixed $params = null){
     parameterise_url($url, $params);
+    querialise_url($url, $query);
 }
