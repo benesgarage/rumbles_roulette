@@ -12,8 +12,7 @@ class Platform
 
     private $loaded;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->CI      =& get_instance();
         $this->CI->config->load($this->config_file, true);
         $this->query->api_key = $this->CI->config->item('api_key', $this->config_file);
@@ -27,6 +26,7 @@ class Platform
             $this->summoner_name = $summoner_name;
             summoner('summoner_name',$this->summoner_name);
             $this->loaded        = true;
+            $this->CI->load->library('api/riot/api');
         }
     }
 
@@ -37,6 +37,8 @@ class Platform
     }
 
     private function fetch_summoner_data_by_names() : stdClass {
+        log_message('debug', __FUNCTION__.' started');
+        $this->CI->api->load($this->CI->config->item(__FUNCTION__,$this->config_file)->config);
         $query = $this->query;
 
     }

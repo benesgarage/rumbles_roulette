@@ -15,18 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Base_api {
-    protected $config_file   = RIOT_CONFIG_FILE;
-    protected $query;
-    protected $api_key;
-    protected $region;
-    private $summoner_id;
-    private $loaded;
 
     public function __construct(stdClass $data) {
-        $this->CI      =& get_instance();
-        $this->query   = new stdClass();
-        $this->CI->config->load($this->config_file,true);
-        $this->api_key = $this->CI->config->item('api_key', $this->config_file);
     }
 
     protected function load(string $region, string $summoner_name) {

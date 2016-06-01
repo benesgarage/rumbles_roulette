@@ -70,6 +70,8 @@ $config['endpoint_suffixes']['fetch_summoner_runes_by_ids']     = array('runes')
 $config['endpoint_suffixes']['fetch_teams_by_summoner_ids']     = array('by-summoner');
 $config['endpoint_suffixes']['fetch_teams_by_team_ids']         = array();
 
+$config['fetch_summoner_data_by_names']['config']               = 'summoner';
+
 $config['game']['game_types']                                   = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
                                                                   'RANKED_TEAM_5x5');
 $config['game']['default_game_type']                            = 'RANKED_SOLO_5x5';
