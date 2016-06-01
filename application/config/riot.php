@@ -1,14 +1,15 @@
 <?php
 // RIOT URL ENDPOINTS
 //TODO: SEPERATE CONFIG FOR EACH API?
-$config['champion_config']                                      = '/libraries/config/champion_config';
+$config['champion_config']                                      = '/riot/champion_config';
+$config['mastery_config']                                       = '/riot/mastery_config';
 $config['endpoints']['mastery_url']                             = 'https://{region}.api.pvp.net/championmastery/location/{platform_id}/player/{summoner_id}';
 $config['endpoints']['current_game_url']                        = 'https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}';
 $config['endpoints']['featured_games_url']                      = 'https://{region}.api.pvp.net/observer-mode/rest/featured';
 $config['endpoints']['game_url']                                = 'https://{region}.api.pvp.net/api/lol/{region}/v1.3/game/by-summoner/{summoner_id}/recent';
 $config['endpoints']['league_url']                              = 'https://{region}.api.pvp.net/api/lol/{region}/v2.5/league';
 $config['endpoints']['static_data_url']                         = 'https://global.api.pvp.net/api/lol/static-data/{region}/v1.2';
-//TODO:STATUS API DOESNT REQUIRE API KEY, AND DOESN'T USE HTTPS. LOOK AT REMOVING API KEY FROM QUERY IN THIS INSTANCE
+//TODO:STATUS API DOESN'T REQUIRE API KEY, AND DOESN'T USE HTTPS. LOOK AT REMOVING API KEY FROM QUERY IN THIS INSTANCE
 $config['endpoints']['status_url']                              = 'http://status.leagueoflegends.com/';
 $config['endpoints']['match_url']                               = 'https://{region}.api.pvp.net/api/lol/{region}/v2.2';
 $config['endpoints']['stats_url']                               = 'https://{region}.api.pvp.net/api/lol/euw/v1.3/stats';
@@ -16,17 +17,17 @@ $config['endpoints']['summoner_url']                            = 'https://{regi
 $config['endpoints']['team_url']                                = 'https://{region}.api.pvp.net/api/lol/euw/v2.4/team';
 
 // RIOT REGION ABBREVIATION TO PLATFORM ABBREVIATION
-$config['region_platform_equivalents']['br']                    = 'br1';
-$config['region_platform_equivalents']['eune']                  = 'eun1';
-$config['region_platform_equivalents']['euw']                   = 'euw1';
-$config['region_platform_equivalents']['jp']                    = 'jp1';
-$config['region_platform_equivalents']['kr']                    = 'kr1';
-$config['region_platform_equivalents']['lan']                   = 'la1';
-$config['region_platform_equivalents']['las']                   = 'la2';
-$config['region_platform_equivalents']['na']                    = 'na1';
-$config['region_platform_equivalents']['oce']                   = 'oc1';
-$config['region_platform_equivalents']['ru']                    = 'ru';
-$config['region_platform_equivalents']['tr']                    = 'tr1';
+$config['br']                                                   = 'br1';
+$config['eune']                                                 = 'eun1';
+$config['euw']                                                  = 'euw1';
+$config['jp']                                                   = 'jp1';
+$config['kr']                                                   = 'kr1';
+$config['lan']                                                  = 'la1';
+$config['las']                                                  = 'la2';
+$config['na']                                                   = 'na1';
+$config['oce']                                                  = 'oc1';
+$config['ru']                                                   = 'ru';
+$config['tr']                                                   = 'tr1';
 
 // RIOT URL ENDPOINT SUFFIXES, URL PARAMETERS
 $config['endpoint_suffixes']['fetch_champion_mastery']          = array('champion');

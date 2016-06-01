@@ -15,6 +15,10 @@ function interlace_parameters(&$original,$inserted) {
     }
 }
 
+function replace_suffix_elements(array &$endpoint_suffixes) {
+    
+}
+
 function parameterise_url(&$url, $data) {
     $data = is_array($data) ? $data : array($data);
     foreach ($data as $param) {

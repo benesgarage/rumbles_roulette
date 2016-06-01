@@ -6,10 +6,13 @@ class Championmastery_api extends Base_api {
 
     private $url;
     private $query;
+    private $api_config_file = '/riot/mastery';
 
     public function __construct(stdClass $data) {
         parent::__construct($data);
-        $this->url = $this->url_list->mastery_url;
+        $this->load();
+        $this->CI->config->load($this->api_config_file,true);
+        $this->url = $this->CI->config->item('endpoint',$this->api_config_file);
     }
 
     protected function load() {

@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('User', 'session');
+$autoload['libraries'] = array('Summoner', 'session');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('interlace_parameters','check_config');
+$autoload['helper'] = array('interlace_parameters','summoner');
 
 /*
 | -------------------------------------------------------------------

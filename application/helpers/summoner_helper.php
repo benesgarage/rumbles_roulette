@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function user($key, $value = null) {
+function summoner($key, $value = null) {
     
     if($value === null) {
         
@@ -13,19 +13,19 @@ function user($key, $value = null) {
     }
 }
 
-function get_user($key) {
+function get_summoner($key) {
     
     return CI_Controller::get_instance()->user->get($key);
     
 }
 
-function get_all_user() {
+function get_all_summoner() {
 
     return CI_Controller::get_instance()->user->get_all();
 
 }
 
-function set_user($key,$value) {
+function set_summoner($key,$value) {
 
     if($key) {
 
@@ -35,7 +35,7 @@ function set_user($key,$value) {
 
 }
 
-function batch_set_user($data) {
+function batch_set_summoner($data) {
 
     if (is_object($data) || is_array($data)) {
 
@@ -51,5 +51,5 @@ function batch_set_user($data) {
 
 }
 
-/* End of file user_helper.php */
-/* Location: ./application/helpers/user_helper.php */
+/* End of file summoner_helper.php */
+/* Location: ./application/helpers/summoner_helper.php */

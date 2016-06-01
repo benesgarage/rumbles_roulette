@@ -13,41 +13,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Base_api
  */
 
-//TODO: NO POINT IN LOADING ALL URLS IF THE SUBCLASS ONLY USES ONE, REMOVE REDUNDANT URLS
 
 class Base_api {
     protected $config_file   = RIOT_CONFIG_FILE;
-    private $url_config;
-    private $region;
-    private $platform_id;
-    private $summoner_id;
-    protected $url_list;
-    protected $endpoint_suffixes;
-    protected $api_key;
     protected $query;
+    protected $api_key;
+    protected $region;
+    private $summoner_id;
+    private $loaded;
 
     public function __construct(stdClass $data) {
-        $this->CI =& get_instance();
-        $this->load();
-        $this->CI->load->library('api/riot/connector');
-        $this->CI->load->helper('interlace_parameters');
+        $this->CI      =& get_instance();
+        $this->query   = new stdClass();
+        $this->CI->config->load($this->config_file,true);
+        $this->api_key = $this->CI->config->item('api_key', $this->config_file);
     }
 
-    protected function load() {
-        if(!$this->loaded_configs) {
-            $this->CI->config->load($this->config_file,true);
-            $this->url_config        = (object) $this->CI->config->item('endpoints',$this->config_file);
-            $this->platform_id       = $this->CI->config->item('region_platform_equivalents', $this->config_file)[$this->region];
-            $this->endpoint_suffixes = (object) $this->CI->config->item('endpoint_suffixes', $this->config_file);
-            $this->api_key           = $this->CI->config->item('api_key', $this->config_file);
-            $this->url_list          = $this->set_url_list();
-            $this->query             = new stdClass();
-            $this->query->api_key    = $this->api_key;
+    protected function load(string $region, string $summoner_name) {
+        //todo: maybe some validation for both variables?
+        if(!$this->loaded) {
+            $this->region        = $this->confirm_region($region);
+            //todo:filter summoner name
+            $this->summoner_name = $summoner_name;
+            $this->loaded        = true;
         }
     }
 
-//TODO: TAKING IDEAS FROM KITMAKER, HANDLER/CONNECTOR IMPLEMENTATION?
-//TODO: IMPLEMENT FUNCTIONS IN THEIR RESPECTIVE API SECTION/FILE/CLASS
+    private function confirm_region(string $region) : string {
+        //todo: what happens when we are given an incorrect region?
+        $region = strtolower($region);
+        return ($this->CI->config->config[$region])? $region : null;
+    }
 
     public function set_url_list() : stdClass {
         $find     = array('{region}','{summoner_id}','{platform_id}');
@@ -57,7 +53,11 @@ class Base_api {
         return $url_list;
     }
 
-    function check_config(mixed $element,array $config) : mixed{
+    protected function check_config(mixed $element,array $config) : mixed {
         return (in_array($element,$config))? $element : $this->CI->config->item($config,$this->config_file)->default;
+    }
+
+    protected function set_region(){
+        preg_replace('/{region}/',$this->region,$this->url);
     }
 }
