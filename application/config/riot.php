@@ -1,20 +1,51 @@
 <?php
-// RIOT URL ENDPOINTS
-//TODO: SEPERATE CONFIG FOR EACH API?
-$config['champion_config']                                      = '/riot/champion_config';
-$config['mastery_config']                                       = '/riot/mastery_config';
-$config['endpoints']['mastery_url']                             = 'https://{region}.api.pvp.net/championmastery/location/{platform_id}/player/{summoner_id}';
-$config['endpoints']['current_game_url']                        = 'https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/{platform_id}/{summoner_id}';
-$config['endpoints']['featured_games_url']                      = 'https://{region}.api.pvp.net/observer-mode/rest/featured';
-$config['endpoints']['game_url']                                = 'https://{region}.api.pvp.net/api/lol/{region}/v1.3/game/by-summoner/{summoner_id}/recent';
-$config['endpoints']['league_url']                              = 'https://{region}.api.pvp.net/api/lol/{region}/v2.5/league';
-$config['endpoints']['static_data_url']                         = 'https://global.api.pvp.net/api/lol/static-data/{region}/v1.2';
-//TODO:STATUS API DOESN'T REQUIRE API KEY, AND DOESN'T USE HTTPS. LOOK AT REMOVING API KEY FROM QUERY IN THIS INSTANCE
-$config['endpoints']['status_url']                              = 'http://status.leagueoflegends.com/';
-$config['endpoints']['match_url']                               = 'https://{region}.api.pvp.net/api/lol/{region}/v2.2';
-$config['endpoints']['stats_url']                               = 'https://{region}.api.pvp.net/api/lol/euw/v1.3/stats';
-$config['endpoints']['summoner_url']                            = 'https://{region}.api.pvp.net/api/lol/euw/v1.4/summoner';
-$config['endpoints']['team_url']                                = 'https://{region}.api.pvp.net/api/lol/euw/v2.4/team';
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+
+// RIOT API CONFIG ROUTES FOR EACH ACTION
+$config['fetch_champion']                                       = 'riot/champion';
+$config['fetch_champions']                                      = 'riot/champion';
+$config['fetch_champion_mastery']                               = 'riot/mastery';
+$config['fetch_champion_masteries']                             = 'riot/mastery';
+$config['fetch_mastery_score']                                  = 'riot/mastery';
+$config['fetch_top_mastery_entries']                            = 'riot/mastery';
+$config['fetch_current_game_info_by_id']                        = 'riot/current_game';
+$config['fetch_featured_games']                                 = 'riot/featured_games';
+$config['fetch_recent_games_by_summoner_id']                    = 'riot/game';
+$config['fetch_leagues_by_summoner_ids']                        = 'riot/league';
+$config['fetch_league_by_summoner_ids']                         = 'riot/league';
+$config['fetch_leagues_by_team_ids']                            = 'riot/league';
+$config['fetch_league_by_team_ids']                             = 'riot/league';
+$config['fetch_challenger_leagues']                             = 'riot/league';
+$config['fetch_master_leagues']                                 = 'riot/league';
+$config['fetch_static_champions']                               = 'riot/static_data';
+$config['fetch_static_champion']                                = 'riot/static_data';
+$config['fetch_static_items']                                   = 'riot/static_data';
+$config['fetch_static_item']                                    = 'riot/static_data';
+$config['fetch_static_lang_strings']                            = 'riot/static_data';
+$config['fetch_static_languages']                               = 'riot/static_data';
+$config['fetch_static_map']                                     = 'riot/static_data';
+$config['fetch_static_masteries']                               = 'riot/static_data';
+$config['fetch_static_mastery_by_id']                           = 'riot/static_data';
+$config['fetch_static_realm']                                   = 'riot/static_data';
+$config['fetch_static_runes']                                   = 'riot/static_data';
+$config['fetch_static_rune_by_id']                              = 'riot/static_data';
+$config['fetch_static_s_spells']                                = 'riot/static_data';
+$config['fetch_static_s_spells_by_id']                          = 'riot/static_data';
+$config['fetch_static_versions']                                = 'riot/static_data';
+$config['fetch_shards']                                         = 'riot/lol_status';
+$config['fetch_shards_by_region']                               = 'riot/lol_status';
+$config['fetch_match_by_id']                                    = 'riot/match';
+$config['fetch_matchlist_by_id']                                = 'riot/matchlist';
+$config['fetch_ranked_stats_by_id']                             = 'riot/stats';
+$config['fetch_stats_summary_by_id']                            = 'riot/stats';
+$config['fetch_summoner_data_by_names']                         = 'riot/summoner';
+$config['fetch_summoner_data_by_ids']                           = 'riot/summoner';
+$config['fetch_summoner_masteries_by_ids']                      = 'riot/summoner';
+$config['fetch_summoner_names_by_ids']                          = 'riot/summoner';
+$config['fetch_summoner_runes_by_ids']                          = 'riot/summoner';
+$config['fetch_teams_by_summoner_ids']                          = 'riot/team';
+$config['fetch_teams_by_team_ids']                              = 'riot/team';
 
 // RIOT REGION ABBREVIATION TO PLATFORM ABBREVIATION
 $config['br']                                                   = 'br1';
@@ -29,55 +60,13 @@ $config['oce']                                                  = 'oc1';
 $config['ru']                                                   = 'ru';
 $config['tr']                                                   = 'tr1';
 
-// RIOT URL ENDPOINT SUFFIXES, URL PARAMETERS
-$config['endpoint_suffixes']['fetch_champion_mastery']          = array('champion');
-$config['endpoint_suffixes']['fetch_champion_masteries']        = array('champions');
-$config['endpoint_suffixes']['fetch_mastery_score']             = array('score');
-$config['endpoint_suffixes']['fetch_top_mastery_entries']       = array('topchampions');
-$config['endpoint_suffixes']['fetch_leagues_by_summoner_ids']   = array('by-summoner');
-$config['endpoint_suffixes']['fetch_league_by_summoner_ids']    = array('by-summoner','entry');
-$config['endpoint_suffixes']['fetch_leagues_by_team_ids']       = array('by-team');
-$config['endpoint_suffixes']['fetch_league_by_team_ids']        = array('by-team', 'entry');
-$config['endpoint_suffixes']['fetch_challenger_leagues']        = array('challenger');
-$config['endpoint_suffixes']['fetch_master_leagues']            = array('master');
-$config['endpoint_suffixes']['fetch_static_champions']          = array('champion');
-$config['endpoint_suffixes']['fetch_static_champion']           = array('champion');
-$config['endpoint_suffixes']['fetch_static_items']              = array('item');
-$config['endpoint_suffixes']['fetch_static_item']               = array('item');
-$config['endpoint_suffixes']['fetch_static_lang_strings']       = array('language-strings');
-$config['endpoint_suffixes']['fetch_static_languages']          = array('languages');
-$config['endpoint_suffixes']['fetch_static_map']                = array('map');
-$config['endpoint_suffixes']['fetch_static_masteries']          = array('mastery');
-$config['endpoint_suffixes']['fetch_static_mastery_by_id']      = array('mastery');
-$config['endpoint_suffixes']['fetch_static_realm']              = array('realm');
-$config['endpoint_suffixes']['fetch_static_runes']              = array('rune');
-$config['endpoint_suffixes']['fetch_static_rune_by_id']         = array('rune');
-$config['endpoint_suffixes']['fetch_static_s_spells']           = array('summoner-spell');
-$config['endpoint_suffixes']['fetch_static_s_spells_by_id']     = array('summoner-spell');
-$config['endpoint_suffixes']['fetch_static_versions']           = array('versions');
-$config['endpoint_suffixes']['fetch_shards']                    = array('shards');
-$config['endpoint_suffixes']['fetch_shard_by_region']           = array('shards');
-$config['endpoint_suffixes']['fetch_match_by_id']               = array('match');
-$config['endpoint_suffixes']['fetch_ranked_stats_by_id']        = array('by-summoner','ranked');
-$config['endpoint_suffixes']['fetch_stats_summary_by_id']       = array('by-summoner','summary');
-$config['endpoint_suffixes']['fetch_summoner_data_by_names']    = array('by-name');
-$config['endpoint_suffixes']['fetch_summoner_data_by_ids']      = array();
-//todo:interlace parameters is not precise enough for summoner api, ex: url/variable/param <--this is not contemplated
-//todo:maybe using substring replacement placeholders in the enpoint suffix array? <-- idea
-$config['endpoint_suffixes']['fetch_summoner_masteries_by_ids'] = array('masteries');
-$config['endpoint_suffixes']['fetch_summoner_names_by_ids']     = array('name');
-$config['endpoint_suffixes']['fetch_summoner_runes_by_ids']     = array('runes');
-$config['endpoint_suffixes']['fetch_teams_by_summoner_ids']     = array('by-summoner');
-$config['endpoint_suffixes']['fetch_teams_by_team_ids']         = array();
-
-$config['fetch_summoner_data_by_names']['config']               = 'summoner';
-
+//GENERAL CONFIGS
 $config['game']['game_types']                                   = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
                                                                   'RANKED_TEAM_5x5');
 $config['game']['default_game_type']                            = 'RANKED_SOLO_5x5';
 
-$config['season']['seasons']                                    = array('SEASON3','SEASON2014','SEASON2015','SEASON2016');
-$config['season']['default_season']                             = 'SEASON2016';
+$config['seasons']                                              = array('SEASON3','SEASON2014','SEASON2015','SEASON2016');
+$config['default_season']                                       = 'SEASON2016';
 
 $config['api_key']                                              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
