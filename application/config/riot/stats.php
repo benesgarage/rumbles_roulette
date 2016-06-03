@@ -11,8 +11,10 @@ $config['fetch_ranked_stats_by_id']             = array('by-summoner','{summoner
 
 $config['fetch_ranked_stats_by_id']['find']     = array('{summoner_id}');
 $config['fetch_ranked_stats_by_id']['replace']  = array('summoner_id');
+$config['fetch_ranked_stats_by_id']['query']    = array();
 
 $config['fetch_stats_summary_by_id']            = array('by-summoner','{summoner_id}','summary');
 
 $config['fetch_stats_summary_by_id']['find']    = array('{summoner_id}');
 $config['fetch_stats_summary_by_id']['replace'] = array('summoner_id');
+$config['fetch_stats_summary_by_id']['query']   = array();

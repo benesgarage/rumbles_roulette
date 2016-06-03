@@ -60,6 +60,34 @@ $config['oce']                                                  = 'oc1';
 $config['ru']                                                   = 'ru';
 $config['tr']                                                   = 'tr1';
 
+//QUERY VARIABLE DEFINITIONS
+$config['api_key']                                              = 'string';
+$config['freeToPlay']                                           = 'boolean';
+$config['type']                                                 = 'string';
+$config['count']                                                = 'integer';
+$config['includeTimeline']                                      = 'boolean';
+$config['championIds']                                          = 'string';
+$config['rankedQueues']                                         = 'string';
+$config['seasons']                                              = 'string';
+$config['beginTime']                                            = 'float';
+$config['endTime']                                              = 'float';
+$config['beginIndex']                                           = 'integer';
+$config['endIndex']                                             = 'integer';
+$config['locale']                                               = 'string';
+$config['version']                                              = 'string';
+$config['dataById']                                             = 'boolean';
+$config['champData']                                            = 'string';
+$config['itemListData']                                         = 'string';
+$config['itemData']                                             = 'string';
+$config['masteryListData']                                      = 'string';
+$config['masteryData']                                          = 'string';
+$config['runeListData']                                         = 'string';
+$config['runeData']                                             = 'string';
+$config['spellData']                                            = 'string';
+
+//TODO:PROCESS PARAM VARIABLES TOO?
+
+
 //GENERAL CONFIGS
 $config['game']['game_types']                                   = array('RANKED_SOLO_5x5','RANKED_TEAM_3x3',
                                                                   'RANKED_TEAM_5x5');
